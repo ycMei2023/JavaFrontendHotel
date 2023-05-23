@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid black;
+            padding: 8px;
+            
+        }
+    </style>
+
+    <script>
+        function showCustomer() {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    console.log(this.responseText);
+                    var allCustomer = JSON.parse(this.responseText);
+                    var endString = "<table>";
+                    endString += "<tr><th>First Name</th><th>Last Name</th><th>Address</th><th>Email</th><th>Action</th></tr>";
+                    for (var x = 0; x < allCustomer.length; x++) {
+                        endString += "<tr><td>" + allCustomer[x].firstName + "</td>";
+                        endString += "<td>" + allCustomer[x].lastName + "</td>";
+                        endString += "<td>" + allCustomer[x].address + "</td>";
+                        endString += "<td>" + allCustomer[x].email + "</td>";
+                        endString += "<td><button onclick='deleteCustomer(" + allCustomer[x].id + ")'>Delete</button></td></tr>";
+                    }
+                    endString += "</table>";
+                    document.getElementById("allCustomers").innerHTML = endString;
+                }
+            };
+            xhr.open("GET", "http://localhost:8080/thecustomer", true);
+            xhr.send();
+        }
+
+        function addName() {
+            var custName = {};
+            custName.firstName = document.getElementById("nameCustomer").value;
+            custName.lastName = document.getElementById("lastNameCustomer").value;
+            custName.address = document.getElementById("addressCustomer").value;
+            custName.email = document.getElementById("emailCustomer").value;
+
+            var deJSON = JSON.stringify(custName);
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    console.log("added");
+                    // Clear input fields after adding a customer
+                    document.getElementById("nameCustomer").value = "";
+                    document.getElementById("lastNameCustomer").value = "";
+                    document.getElementById("addressCustomer").value = "";
+                    document.getElementById("emailCustomer").value = "";
+                }
+            };
+            xhr.open("POST", "http://localhost:8080/addcustomer", true);
+            xhr.setRequestHeader("Content-type", "application/json");
+            xhr.send(deJSON);
+        }
+
+        function deleteCustomer(id) {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    console.log("deleted");
+                    // Call the showCustomer function again to refresh the customer list
+                    showCustomer();
+                }
+            };
+            xhr.open("DELETE", "http://localhost:8080/deletecustomer/" + id, true);
+            xhr.send();
+        }
+    </script>
+</head>
+
+<body>
+    <label for="nameCustomer">First Name:</label>
+    <input id="nameCustomer">
+    <br>
+    <label for="lastNameCustomer">Last Name:</label>
+    <input id="lastNameCustomer">
+    <br>
+    <label for="addressCustomer">Address:</label>
+    <input id="addressCustomer">
+    <br>
+    <label for="emailCustomer">Email:</label>
+    <input id="emailCustomer">
+    <br>
+    <button onclick="addName()">Add a customer</button>
+    <button onclick="showCustomer()">Show all customers</button>
+    <div id="allCustomers"></div>
+</body>
+
+</html>
