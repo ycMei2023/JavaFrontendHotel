@@ -12,9 +12,27 @@
                 if(this.readyState == 4){
                     console.log(this.responseText)
                     var allReservations = JSON.parse(this.responseText);
-                    var endString = "<table border=1><thead><tr><th>ID</th><th>People</th><th>Room no.</th><th>Breakfast</th></tr></thead>";
+                    var endString = `<table border=1><thead><tr>
+                        <th>ID</th>
+                        <th>Room no.</th>
+                        <th>Begin Date</th>
+                        <th>End Date</th>
+                        <th>People</th>
+                        <th>Breakfast</th>
+                        <th>Business</th>
+                        <th>Payment status</th>
+                        </tr></thead>`;
                     for(var x = 0; x < allReservations.length; x++){
-                        endString += "<tr><td>"+allReservations[x].id+"</td><td>"+allReservations[x].amountPeople+"</td><td>"+allReservations[x].roomNumber+"</td><td>"+allReservations[x].breakfast+"</td><td><button onclick = deleteR("+allReservations[x].id+")>delete</button></td></tr>";
+                        endString += `<tr>
+                            <td>${allReservations[x].id}</td>
+                            <td>${allReservations[x].roomNumber}</td>
+                            <td>${allReservations[x].beginDate}</td>
+                            <td>${allReservations[x].endDate}</td>
+                            <td>${allReservations[x].amountPeople}</td>
+                            <td>${allReservations[x].breakfast}</td>
+                            <td>${allReservations[x].business}</td>
+                            <td>${allReservations[x].paymentStatus}</td>
+                            <td><button onclick = deleteR(${allReservations[x].id})>delete</button></td></tr>`;
                     }
                     endString += "</table>";
                     document.getElementById("allReservationsTable").innerHTML = endString;
@@ -28,6 +46,9 @@
             reservation.amountPeople = document.getElementById("amount_people").value;
             reservation.roomNumber = document.getElementById("room_number").value;
             reservation.breakfast = document.getElementById("breakfast").value;
+            reservation.beginDate = document.getElementById("beginDate").value;
+            reservation.endDate = document.getElementById("endDate").value;
+            reservation.business = document.getElementById("business").value;
             var theJSON = JSON.stringify(reservation);
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function(){
@@ -44,6 +65,8 @@
             reservation.amountPeople = document.getElementById("amount_people").value;
             reservation.roomNumber = document.getElementById("room_number").value;
             reservation.breakfast = document.getElementById("breakfast").value;
+            reservation.beginDate = document.getElementById("beginDate").value;
+            reservation.endDate = document.getElementById("endDate").value;
             reservation.id = document.getElementById("id").value;
             var theJSON = JSON.stringify(reservation);
             var xhr = new XMLHttpRequest();
@@ -69,11 +92,14 @@
     </script>
 </head>
 <body>
+    Begin Date:<br><input type="date" id="beginDate"><br>
+    End Date:<br><input type="date" id="endDate"><br>
     Amount of people<br><input id="amount_people"><br>
     Room No.<br><input id="room_number"><br>
-    Breakfast<br><select id="breakfast"><option value="false">false</option><option value="true">true</option></select><br><br>
+    Breakfast<br><select id="breakfast"><option value="false">false</option><option value="true">true</option></select><br>
+    Business<br><select id="'business"><option value="false">false</option><option value="true">true</option></select><br><br>
     <button onclick = "addR()">add</button><br><br>
-    <button onclick="changeR()">change reservation from id:</button>
+    <button onclick="changeR()">Update specific id:</button>
     <input id="id"><br><br>
     <button onclick="showReservations()">Show all reservations</button>
     
