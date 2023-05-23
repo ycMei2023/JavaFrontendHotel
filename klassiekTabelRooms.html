@@ -35,13 +35,14 @@
                             "<td>" + allRooms[x].dateBookings + "</td>" +
                             "<td>" + allRooms[x].roomNo + "</td>" +
                             "<td> <button onclick=deleteRoom("+allRooms[x].id+")> Delete </button> </td>" +
+                            "<td> <button onclick=updateRoom("+allRooms[x].id+")> Update </button> </td>" +
                             "</tr>";
                     }
                     finalString += "</tbody></table>";
                     document.getElementById("allRoomsTable").innerHTML = finalString;               
                 }
             }
-            xhr.open("GET", "http://localhost:8090/allRooms",true);
+            xhr.open("GET", "http://localhost:8080/allRooms",true);
             xhr.send();
         }
 
@@ -51,7 +52,25 @@
             newRoom.price = document.getElementById("roomPrice").value;
             newRoom.roomNo = document.getElementById("roomNo").value;
 
-            console.log(newRoom);
+            var newRoomJSON = JSON.stringify(newRoom);
+
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function (){
+                if(this.readyState == 4) {
+                    console.log("Addition succesful");
+                }
+            }
+            xhr.open("POST", "http://localhost:8080/addRoom", true);
+            xhr.setRequestHeader("Content-Type","application/json");
+            xhr.send(newRoomJSON);
+        }
+        
+        function updateRoom(id){
+            var newRoom = {}; //create an empty object
+            newRoom.id = id;
+            newRoom.type = document.getElementById("roomType").value;
+            newRoom.price = document.getElementById("roomPrice").value;
+            newRoom.roomNo = document.getElementById("roomNo").value;
 
             var newRoomJSON = JSON.stringify(newRoom);
 
@@ -60,13 +79,12 @@
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function (){
                 if(this.readyState == 4) {
-                    console.log("Toevoegen gelukt");
+                    console.log("Update succesful");
                 }
             }
-            xhr.open("POST", "http://localhost:8090/addRoom", true);
+            xhr.open("PUT", "http://localhost:8080/updateRoom", true);
             xhr.setRequestHeader("Content-Type","application/json");
             xhr.send(newRoomJSON);
-            
         }
 
         function deleteRoom(id){
@@ -78,7 +96,7 @@
                     console.log("Room deleted");
                 }
             }
-            xhr.open("DELETE", "http://localhost:8090/deleteRoom", true);
+            xhr.open("DELETE", "http://localhost:8080/deleteRoom", true);
             xhr.send(temp_id);
         }
 
