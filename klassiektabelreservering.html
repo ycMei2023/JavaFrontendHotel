@@ -23,7 +23,23 @@
                         <th>Payment status</th>
                         </tr></thead>`;
                     for(var x = 0; x < allReservations.length; x++){
-                        endString += `<tr>
+                        if(document.getElementById("filterByPayed").value == "true"){
+                            if(allReservations[x].paymentStatus == true){
+                                endString += `<tr>
+                                <td>${allReservations[x].id}</td>
+                                <td>${allReservations[x].roomNumber}</td>
+                                <td>${allReservations[x].beginDate}</td>
+                                <td>${allReservations[x].endDate}</td>
+                                <td>${allReservations[x].amountPeople}</td>
+                                <td>${allReservations[x].breakfast}</td>
+                                <td>${allReservations[x].business}</td>
+                                <td>${allReservations[x].paymentStatus}</td>
+                                <td><button onclick = deleteR(${allReservations[x].id})>delete</button></td></tr>`;
+                            }
+                        }
+
+                        else{
+                            endString += `<tr>
                             <td>${allReservations[x].id}</td>
                             <td>${allReservations[x].roomNumber}</td>
                             <td>${allReservations[x].beginDate}</td>
@@ -33,6 +49,7 @@
                             <td>${allReservations[x].business}</td>
                             <td>${allReservations[x].paymentStatus}</td>
                             <td><button onclick = deleteR(${allReservations[x].id})>delete</button></td></tr>`;
+                        }
                     }
                     endString += "</table>";
                     document.getElementById("allReservationsTable").innerHTML = endString;
@@ -101,6 +118,7 @@
     <button onclick = "addR()">add</button><br><br>
     <button onclick="changeR()">Update specific id:</button>
     <input id="id"><br><br>
+    Show only payed reservations? <select id="filterByPayed"><option value="false">false</option><option value="true">true</option></select> 
     <button onclick="showReservations()">Show all reservations</button>
     
 
