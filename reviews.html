@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button onclick="showAllreviews()">show all reviews</button>
+    <div id="allReviews"></div>
+</body>
+
+<input id="reviewName">
+<input id="reviewText">
+<input type="number" id="reviewScore">
+<button onclick="addreview()">add review</button>
+</html>
+
+
+
+<script>
+
+function showAllreviews(){
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function(){
+        if(this.readyState == 4){
+        var allreviews = JSON.parse(this.responseText);
+        var finalstring = "<table border=1>"
+        for(var x = 0; x < allreviews.length; x++){
+            finalstring += "<tr><td>"+ allreviews[x].name+
+                "</td><td>"+allreviews[x].rating +"</td><td>"+
+                    allreviews[x].reviewText+
+                    "</td><td><button onclick=updateReview("+allreviews[x].id +")>edit</button></td><td><button onclick=deleteReview("+allreviews[x].id +")>delete</button></td></tr>"
+        }
+        finalstring += "</table>"
+        document.getElementById('allReviews').innerHTML = finalstring;
+        }
+    }
+    xhr.open("get","http://localhost:8080/Reviews", true);
+    xhr.send();
+}
+
+ function addreview() {
+    var theReview = {}
+    theReview.rating = document.getElementById("reviewScore").value;
+    theReview.name = document.getElementById("reviewName").value;
+    theReview.reviewText = document.getElementById("reviewText").value;
+    var theJSON = JSON.stringify(theReview);
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function(){
+        if(this.readyState == 4){
+        }
+    }
+
+    xhr.open("POST","http://localhost:8080/AddReview", true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.send(theJSON);
+ }
+
+ function deleteReview(id){
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function(){
+        if(this.readyState == 4){
+        }
+    }
+    xhr.open("DELETE","http://localhost:8080/DeleteReview/"+id, true);
+    xhr.send();
+ }
+ function updateReview(id){
+    var theReview = {}
+    theReview.id = id;
+    theReview.rating = document.getElementById("reviewScore").value;
+    theReview.name = document.getElementById("reviewName").value;
+    theReview.reviewText = document.getElementById("reviewText").value;
+    var theJSON = JSON.stringify(theReview);
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function(){
+        if(this.readyState == 4){
+            
+        }
+    }
+    
+    xhr.open("PUT","http://localhost:8080/UpdateReview", true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.send(theJSON);
+ }
+
+</script>
