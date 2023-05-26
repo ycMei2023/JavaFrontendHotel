@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script>
+        showReservations()
         function showReservations(){
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function(){
@@ -34,7 +35,8 @@
                                 <td>${allReservations[x].breakfast}</td>
                                 <td>${allReservations[x].business}</td>
                                 <td>${allReservations[x].paymentStatus}</td>
-                                <td><button onclick = deleteR(${allReservations[x].id})>delete</button></td></tr>`;
+                                <td><button onclick = deleteR(${allReservations[x].id})> Delete </button></td>
+                                <td><button onclick = changeR(${allReservations[x].id})> Update </button> </td></tr>`;
                             }
                         }
 
@@ -48,7 +50,8 @@
                             <td>${allReservations[x].breakfast}</td>
                             <td>${allReservations[x].business}</td>
                             <td>${allReservations[x].paymentStatus}</td>
-                            <td><button onclick = deleteR(${allReservations[x].id})>delete</button></td></tr>`;
+                            <td><button onclick = deleteR(${allReservations[x].id})> Delete </button></td>
+                            <td><button onclick = changeR(${allReservations[x].id})> Update </button> </td></tr>`;
                         }
                     }
                     endString += "</table>";
@@ -77,14 +80,14 @@
             xhr.setRequestHeader("Content-Type","application/json");
             xhr.send(theJSON);
         }
-        function changeR(){
+        function changeR(theid){
             var reservation = {};
             reservation.amountPeople = document.getElementById("amount_people").value;
             reservation.roomNumber = document.getElementById("room_number").value;
             reservation.breakfast = document.getElementById("breakfast").value;
             reservation.beginDate = document.getElementById("beginDate").value;
             reservation.endDate = document.getElementById("endDate").value;
-            reservation.id = document.getElementById("id").value;
+            reservation.id = theid;
             var theJSON = JSON.stringify(reservation);
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function(){
@@ -116,8 +119,6 @@
     Breakfast<br><select id="breakfast"><option value="false">false</option><option value="true">true</option></select><br>
     Business<br><select id="business"><option value="false">false</option><option value="true">true</option></select><br><br>
     <button onclick = "addR()">add</button><br><br>
-    <button onclick="changeR()">Update specific id:</button>
-    <input id="id"><br><br>
     Show only payed reservations? <select id="filterByPayed"><option value="false">false</option><option value="true">true</option></select> 
     <button onclick="showReservations()">Show all reservations</button>
     
