@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script>
-        showReservations()
+        showReservations();
         function showReservations(){
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function(){
@@ -22,6 +22,7 @@
                         <th>Breakfast</th>
                         <th>Business</th>
                         <th>Payment status</th>
+                        <th>Approval date</th>
                         </tr></thead>`;
                     for(var x = 0; x < allReservations.length; x++){
                         if(document.getElementById("filterByPayed").value == "true"){
@@ -35,6 +36,7 @@
                                 <td>${allReservations[x].breakfast}</td>
                                 <td>${allReservations[x].business}</td>
                                 <td>${allReservations[x].paymentStatus}</td>
+                                <td>${allReservations[x].approvalDate}</td>
                                 <td><button onclick = deleteR(${allReservations[x].id})> Delete </button></td>
                                 <td><button onclick = changeR(${allReservations[x].id})> Update </button></td>
                                 </tr>`;
@@ -51,6 +53,7 @@
                             <td>${allReservations[x].breakfast}</td>
                             <td>${allReservations[x].business}</td>
                             <td>${allReservations[x].paymentStatus}</td>
+                            <td>${allReservations[x].approvalDate}</td>
                             <td><button onclick = approveR(${allReservations[x].id})> Approve </button></td>
                             <td><button onclick = deleteR(${allReservations[x].id})> Delete </button></td>
                             <td><button onclick = changeR(${allReservations[x].id})> Update </button></td>
@@ -77,6 +80,7 @@
             xhr.onreadystatechange = function(){
                 if(this.readyState == 4){
                     console.log("add succesful")
+                    showReservations();
                 }
             }
             xhr.open("POST", "http://localhost:8080/addreservation", true)
@@ -96,6 +100,7 @@
             xhr.onreadystatechange = function(){
                 if(this.readyState == 4){
                     console.log("change succesful")
+                    showReservations();
                 }
             }
             xhr.open("PUT", "http://localhost:8080/changereservation", true)
@@ -104,11 +109,6 @@
         }
         function approveR(theid){
             var reservation = {};
-            reservation.amountPeople = document.getElementById("amount_people").value;
-            reservation.roomNumber = document.getElementById("room_number").value;
-            reservation.breakfast = document.getElementById("breakfast").value;
-            reservation.beginDate = document.getElementById("beginDate").value;
-            reservation.endDate = document.getElementById("endDate").value;
             reservation.id = theid;
             reservation.paymentStatus = true;
 
@@ -117,16 +117,18 @@
             xhr.onreadystatechange = function(){
                 if(this.readyState == 4){
                     console.log("approve succesful")
+                    showReservations();
                 }
             }
             xhr.open("PUT", "http://localhost:8080/approvereservation", true)
             xhr.setRequestHeader("Content-Type","application/json");
-            xhr.send(theJSON);
+            xhr.send(theid);
         }
         function deleteR(theid){
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function(){
                 if(this.readyState == 4){
+                    showReservations();
                 }
             }
             xhr.open("DELETE", "http://localhost:8080/deletereservation/"+theid, true)
