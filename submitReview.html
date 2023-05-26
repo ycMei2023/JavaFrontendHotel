@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+
+    <title>Document</title>
+</head>
+<body>
+<div class="text-center ">
+    <div class="input-group mb3">
+    <span class="input-group-text" id="addon1">naam</span>
+    <input class="form-control" id="reviewName">
+</div>
+<div class="input-group mb3">
+    <span class="input-group-text" id="addon1">naam</span>
+    <input class="form-control id="reviewText">
+</div>
+<div class="input-group mb3">
+    <span class="input-group-text" id="addon1">naam</span>
+    <input class="form-control type="number" id="reviewScore">
+</div>
+    <button onclick="addreview()" class="btn btn-primary">add review</button>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+
+</body>
+</html>
+</html>
+
+<script>
+    function addreview() {
+    var theReview = {}
+    theReview.rating = document.getElementById("reviewScore").value;
+    theReview.name = document.getElementById("reviewName").value;
+    theReview.reviewText = document.getElementById("reviewText").value;
+    var theJSON = JSON.stringify(theReview);
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function(){
+        if(this.readyState == 4){
+        }
+    }
+
+    xhr.open("POST","http://localhost:8080/AddReview", true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.send(theJSON);
+ }
+</script>
+
+<style>
+
+
+centerForm {
+
+}
+
+
+</style>
