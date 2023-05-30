@@ -110,7 +110,7 @@
         function approveR(theid){
             var reservation = {};
             reservation.id = theid;
-            reservation.paymentStatus = true;
+            paymentStatus = true;
 
             var theJSON = JSON.stringify(reservation);
             var xhr = new XMLHttpRequest();
@@ -120,7 +120,7 @@
                     showReservations();
                 }
             }
-            xhr.open("PUT", "http://localhost:8080/approvereservation", true)
+            xhr.open("PUT", "http://localhost:8080/approvereservation/"+paymentStatus, true)
             xhr.setRequestHeader("Content-Type","application/json");
             xhr.send(theid);
         }

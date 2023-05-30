@@ -10,17 +10,32 @@
 <body>
     <br>
     <div class="input-group mb-3">
-        <span class="input-group-text" id="firstName">Forename</span>
-        <input type="text" class="form-control" placeholder="First name" aria-label="guest's first name" aria-describedby="basic-addon1">
-        <span class="input-group-text" id="secondName">Surname</span>
-        <input type="text" class="form-control" placeholder="Last Name" aria-label="guest's last name" aria-describedby="basic-addon2">
+        <span class="input-group-text" >Forename</span>
+        <input id="firstName" type="text" class="form-control" placeholder="First name" aria-label="guest's first name" aria-describedby="basic-addon1">
+        <span class="input-group-text" >Surname</span>
+        <input id="lastName" type="text" class="form-control" placeholder="Last Name" aria-label="guest's last name" aria-describedby="basic-addon2">
+      </div>
+
+      <div class="input-group mb-3">
+        <label class="input-group-text" for="amountPeople">Amount of people</label>
+        <select class="form-select" id="amountPeople">
+          <option selected>1</option>
+          <option value="1">One</option>
+          <option value="2">Two</option>
+          <option value="3">Three</option>
+          <option value="4">Four</option>
+          <option value="5">Five</option>
+          <option value="6">Six</option>
+          <option value="7">Seven</option>
+          <option value="8">Eight</option>
+        </select>
       </div>
       
       <div class="input-group mb-3">
-        <span class="input-group-text" id="beginDate">Start date</span>
-        <input type="date" class="form-control" aria-label="guest's begin name" aria-describedby="basic-addon2">
-        <span class="input-group-text" id="endDate">End date</span>
-        <input type="date" class="form-control" aria-label="guest's end date" aria-describedby="basic-addon2">
+        <span class="input-group-text" >Start date</span>
+        <input id="beginDate" type="date" class="form-control" aria-label="guest's begin date" aria-describedby="basic-addon2">
+        <span class="input-group-text" >End date</span>
+        <input id="endDate" type="date" class="form-control" aria-label="guest's end date" aria-describedby="basic-addon2">
       </div>
 
       <div class="input-group mb-3">
@@ -43,7 +58,7 @@
       </div>
       <br>
       <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+<button type="button" onclick="reserveR()" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
     Place reservation
   </button>
   
@@ -59,47 +74,94 @@
           Reservation placed for guest 
         </div>
         <div class="modal-footer">
-          <button type="button" onclick="bookR()" class="btn btn-secondary" data-bs-dismiss="modal">Pay at hotel</button>
-          <button type="button" class="btn btn-primary">Pay now</button>
+          <button type="button" onclick="bookPayAtHotelR(1)" class="btn btn-secondary" data-bs-dismiss="modal">Pay at hotel</button>
+          <button type="button" onclick="bookR(1)" class="btn btn-primary" data-bs-dismiss="modal">Pay now</button>
         </div>
       </div>
     </div>
   </div>
     <script>
-        function bookR(){
-            var guest = {};
-            guest.firstName = document.getElementById("firstName").value;
-
+        function reserveR(){
             var reservation = {};
-            reservation.paymentStatus = true;
+            reservation.id=1;
             reservation.amountPeople = document.getElementById("amountPeople").value;
-            reservation.roomNumber = 3;
+            reservation.roomNumber = 4;
             reservation.beginDate = document.getElementById("beginDate").value;
             reservation.endDate = document.getElementById("endDate").value;
-            reservation.breakfast = document.getElementById("breakfastCheck").value;
-            reservation.business = document.getElementById("businessCheck").value;
+            reservation.breakfast = document.getElementById("breakfastCheck").checked;
+            reservation.business = document.getElementById("businessCheck").checked;
 
-            var theJSONG = JSON.stringify(guest);
-            var xhrG = new XMLHttpRequest();
-            xhrG.onreadystatechange = function(){
+            var theJSON = JSON.stringify(reservation);
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function(){
+                if(this.readyState == 4){
+                    console.log("reservation succesful")
+                    console.log(theJSON)
+                }
+            }
+
+            xhr.open("POST", "http://localhost:8080/addreservation", true)
+            xhr.setRequestHeader("Content-Type","application/json");
+            xhr.send(theJSON);
+
+        }
+        function bookR(theid){
+
+            addGuest();
+            
+            var reservation = {};
+            reservation.id = theid;
+            paymentStatus = true;
+
+            var theJSON = JSON.stringify(reservation);
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function(){
+                if(this.readyState == 4){
+                    console.log("approve succesful")
+                }
+            }
+            xhr.open("PUT", "http://localhost:8080/approvereservation/"+paymentStatus, true)
+            xhr.setRequestHeader("Content-Type","application/json");
+            xhr.send(theid);
+        }
+
+        function bookPayAtHotelR(theid){
+            addGuest();
+            
+            var reservation = {};
+            reservation.id = theid;
+            paymentStatus = false;
+
+            var theJSON = JSON.stringify(reservation);
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function(){
+                if(this.readyState == 4){
+                    console.log("approve succesful")
+                }
+            }
+            xhr.open("PUT", "http://localhost:8080/approvereservation/"+paymentStatus, true)
+            xhr.setRequestHeader("Content-Type","application/json");
+            xhr.send(theid);
+        }
+
+        function addGuest(){
+            var guest = {};
+            guest.firstName = document.getElementById("firstName").value;
+            guest.lastName = document.getElementById("lastName").value;
+
+            var theJSON = JSON.stringify(guest);
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function(){
                 if(this.readyState == 4){
                     console.log("Guest added succesfully")
+                    console.log(theJSON)
                 }
             }
-            var theJSONR = JSON.stringify(reservation);
-            var xhrR = new XMLHttpRequest();
-            xhrR.onreadystatechange = function(){
-                if(this.readyState == 4){
-                    console.log("Reservation added succesfully")
-                }
-            }
-            xhrG.open("POST", "http://localhost:8080/addcustomer", true)
-            xhrG.setRequestHeader("Content-Type","application/json");
-            xhrG.send(theJSONG);
 
-            xhrR.open("POST", "http://localhost:8080/addreservation/approve", true)
-            xhrR.setRequestHeader("Content-Type","application/json");
-            xhrR.send(theJSONR);
+            xhr.open("POST", "http://localhost:8080/addcustomer", true)
+            xhr.setRequestHeader("Content-Type","application/json");
+            xhr.send(theJSON);
+
         }
 
     </script>
