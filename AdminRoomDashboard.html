@@ -124,7 +124,6 @@
                         <th> Type </th>
                         <th> Price </th>
                         <th> Reserved </th>
-                        <th> Date Bookings </th>
                         <th> Room No </th>
                         </tr>
                     </thead> <tbody>`;
@@ -135,7 +134,6 @@
                         "<td>" + allRooms[x].type + "</td>" + 
                         "<td>" + allRooms[x].price +"</td>" +
                         "<td>" + allRooms[x].reserved + "</td>" + 
-                        "<td>" + allRooms[x].dateBookings + "</td>" +
                         "<td>" + allRooms[x].roomNo + "</td>" +
                         "<td> <button onclick=deleteRoom("+allRooms[x].id+")> Delete </button> </td>" +
                         "<td> <button onclick=updateRoom("+allRooms[x].id+")> Update </button> </td>" +
@@ -177,8 +175,6 @@
         newRoom.roomNo = document.getElementById("roomNo").value;
 
         var newRoomJSON = JSON.stringify(newRoom);
-
-        console.log(newRoomJSON);
 
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function (){
