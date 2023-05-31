@@ -9,21 +9,45 @@
     <title>Document</title>
 </head>
 <body>
-<div class="text-center ">
+<div class="container">
+    <div class="text-center ">
     <div class="input-group mb3">
     <span class="input-group-text" id="addon1">naam</span>
     <input class="form-control" id="reviewName">
 </div>
 <div class="input-group mb3">
-    <span class="input-group-text" id="addon1">naam</span>
-    <input class="form-control id="reviewText">
+    <span class="input-group-text" id="addon1">review</span>
+    <input class="form-control "id="reviewText">
 </div>
 <div class="input-group mb3">
-    <span class="input-group-text" id="addon1">naam</span>
+    <span class="input-group-text" id="addon1">score</span>
     <input class="form-control type="number" id="reviewScore">
 </div>
-    <button onclick="addreview()" class="btn btn-primary">add review</button>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">add review</button>
 </div>
+</div>
+
+<!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">reserverings nummer</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <span class="input-group-text" id="addon1">bij behoorende reservering</span>
+    <input class="form-control type="number" id="ReservationNumber">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">annuleren</button>
+          <button type="button" class="btn btn-primary" onclick="checkIfReviewIsValid()">submit review</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
 
 </body>
@@ -31,11 +55,15 @@
 </html>
 
 <script>
+
+var rating , name , reviewText
+
+
     function addreview() {
     var theReview = {}
-    theReview.rating = document.getElementById("reviewScore").value;
-    theReview.name = document.getElementById("reviewName").value;
-    theReview.reviewText = document.getElementById("reviewText").value;
+    theReview.rating = rating;
+    theReview.name = name;
+    theReview.reviewText = reviewText;
     var theJSON = JSON.stringify(theReview);
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function(){
@@ -47,4 +75,34 @@
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.send(theJSON);
  }
+
+function checkIfReviewIsValid(){
+  var xhr = new XMLHttpRequest();
+  rating = document.getElementById("reviewScore").value;
+    name = document.getElementById("reviewName").value;
+    reviewText = document.getElementById("reviewText").value;
+  var validId = false;
+    xhr.onreadystatechange = function(){
+        if(this.readyState == 4){
+        var allreservations = JSON.parse(this.responseText);
+        for(var x = 0; x < allreservations.length; x++){
+          console.log(allreservations[x].id)
+          inputNumber = document.getElementById("ReservationNumber").value
+          if( allreservations[x].id == inputNumber){
+            validId = true;
+            break;
+        }
+        }
+        if(validId){
+          addreview();
+        } else{
+            alert("reservering niet gevonden")
+          }
+    }
+  }
+  xhr.open("GET", "http://localhost:8080/reservations", true)
+            xhr.send();
+              
+}
+
 </script>
