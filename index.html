@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <title>Java Hotel YC</title>
+  <style>
+    .panel {
+      padding: 20px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .hero-wrapper {
+      background-size: cover;
+      background-position: center;
+      color: black;
+      padding: 100px 0;
+      background-color: #f2f2f2;
+    }
+
+    .hero-form {
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .section-header {
+      text-align: center;
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+
+    .section-line {
+      border: none;
+      border-top: 2px solid #ccc;
+      margin: 0 auto;
+      width: 50%;
+    }
+    
+    .review-card {
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    
+    .review-card .review-rating {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    
+    .review-card .review-text {
+      margin-bottom: 20px;
+    }
+    
+    .review-card .review-author {
+      font-style: italic;
+    }
+    
+    .hotel-picture {
+      width: 100%;
+      height: auto;
+    }
+
+    .hotel-picture {
+  height: 400px;
+  object-fit: cover;
+  object-position: center;
+}
+  .hotel-section {
+    padding: 150px 0;
+  }
+  .review-section {
+    padding: 150px 0;
+  }
+
+  </style>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Java Hotel</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Review</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Contact</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="hero-wrapper">
+    <div class="container text-center">
+      <h1>Find Your Perfect Stay</h1>
+      <div class="hero-form">
+        <form>
+          <div class="form-group">
+            <label for="checkInDate">Check-in Date</label>
+            <input type="date" class="form-control" id="checkInDate" required>
+          </div>
+          <div class="form-group">
+            <label for="checkOutDate">Check-out Date</label>
+            <input type="date" class="form-control" id="checkOutDate" required>
+          </div>
+          <div class="form-row">
+            <div class="col-md-6">
+              <label for="adults">Adults</label>
+              <select class="form-control" id="adults">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label for="children">Children</label>
+              <select class="form-control" id="children">
+                <option>0</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+              </select>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary mt-3">Search</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <section class="reviews review-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h2 class="section-header">Guest Reviews</h2>
+          <hr class="section-line">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">John Doe</h5>
+              <p class="card-text">"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean dapibus ex in est placerat, a aliquam urna dapibus. Proin scelerisque, justo eu feugiat rhoncus."</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Jane Smith</h5>
+              <p class="card-text">"Nulla eget ligula a odio fermentum ultrices nec a purus. Sed eget lorem suscipit, ultricies ipsum vel, semper arcu."</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Mike Johnson</h5>
+              <p class="card-text">"Fusce vel nisi eu lacus feugiat rhoncus a vitae dui. Suspendisse potenti. Sed tristique orci vitae lorem egestas, eget ultricies mi egestas."</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12 p-0">
+        <img src="img/pexels-roberto-nickson-2631613.jpg" alt="Hotel Picture" class="hotel-picture">
+      </div>
+    </div>
+  </div>
+
+  <section class="hotel-info hotel-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <h2 class="section-header">Welcome to Our Hotel</h2>
+          <hr class="section-line">
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed fringilla diam vel eros condimentum, at fermentum elit facilisis. Duis venenatis dictum enim, at vestibulum mauris facilisis ut. Nulla facilisi. Integer ut massa sit amet risus sodales lacinia.</p>
+          <p>Phasellus tristique, nunc eu efficitur lacinia, velit sem iaculis orci, a pulvinar erat purus id purus. Nam non placerat magna, ac dapibus mauris. Quisque tincidunt commodo mauris, vitae auctor ligula convallis a. Mauris a congue ligula.</p>
+          <p>Nullam id massa non felis accumsan varius in sed sem. In sed erat id ex tincidunt blandit. Vestibulum fringilla dictum mauris, vitae euismod quam tristique a. Fusce rhoncus eros eget mi semper, sit amet pharetra sem consectetur.</p>
+        </div>
+        <div class="col-md-6">
+          <div class="embed-responsive embed-responsive-16by9">
+            <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/your-video-id" allowfullscreen></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <footer class="footer bg-dark text-white text-center py-2">
+    <div class="container">
+      <span>&copy; 2023 Hotel Rights.</span>
+    </div>
+  </footer>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>
