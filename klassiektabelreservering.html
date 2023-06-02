@@ -115,11 +115,6 @@
             xhr.send(theJSON);
         }
         function approveR(theid){
-            var reservation = {};
-            reservation.id = theid;
-            reservation.paymentStatus = true;
-
-            var theJSON = JSON.stringify(reservation);
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function(){
                 if(this.readyState == 4){
