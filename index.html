@@ -136,7 +136,7 @@
       <div class="row">
         <div class="col-md-4">
           <div class="card">
-            <div class="card-body">
+            <div class="card-body" id="review1">
               <h5 class="card-title">John Doe</h5>
               <p class="card-text">"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean dapibus ex in est placerat, a aliquam urna dapibus. Proin scelerisque, justo eu feugiat rhoncus."</p>
             </div>
@@ -144,7 +144,7 @@
         </div>
         <div class="col-md-4">
           <div class="card">
-            <div class="card-body">
+            <div class="card-body" id="review2">
               <h5 class="card-title">Jane Smith</h5>
               <p class="card-text">"Nulla eget ligula a odio fermentum ultrices nec a purus. Sed eget lorem suscipit, ultricies ipsum vel, semper arcu."</p>
             </div>
@@ -152,7 +152,7 @@
         </div>
         <div class="col-md-4">
           <div class="card">
-            <div class="card-body">
+            <div class="card-body" id="review3">
               <h5 class="card-title">Mike Johnson</h5>
               <p class="card-text">"Fusce vel nisi eu lacus feugiat rhoncus a vitae dui. Suspendisse potenti. Sed tristique orci vitae lorem egestas, eget ultricies mi egestas."</p>
             </div>
@@ -196,13 +196,25 @@
   
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  <script>$(function(){
-    $("#nav-placeholder").load("navbar.html");
-  });
-  $(function(){
-  $("#footer-placeholder").load("footer.html");
-});
-</script>
+  <script>
+    //Load nav-bar
+    $(function(){
+      $("#nav-placeholder").load("navbar.html");
+      }
+    );
+    $(function(){
+      $("#footer-placeholder").load("footer.html");
+      }
+    );
+
+    //Function to load random reviews
+    function fetchReviews(number){
+      fetch(`http://localhost:8080/RandomReviews/3`)
+        .then(response => response.json())
+        .then(a => console.log(a));
+    }
+    fetchReviews(3)
+  </script>
 </body>
 
 </html>
