@@ -77,6 +77,11 @@
             reservation.beginDate = document.getElementById("beginDate").value;
             reservation.endDate = document.getElementById("endDate").value;
             reservation.business = document.getElementById("business").value;
+
+            var room = {id:1};
+
+            reservation.rooms=[room];
+
             var theJSON = JSON.stringify(reservation);
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function(){
