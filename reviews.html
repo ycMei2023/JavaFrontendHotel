@@ -25,19 +25,25 @@ function showAllreviews(){
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function(){
         if(this.readyState == 4){
-        var allreviews = JSON.parse(this.responseText);
-        var finalstring = "<table border=1>"
-        for(var x = 0; x < allreviews.length; x++){
-            finalstring += "<tr><td>"+ allreviews[x].name+
-                "</td><td>"+allreviews[x].rating +"</td><td>"+
-                    allreviews[x].reviewText+
-                    "</td><td><button onclick=updateReview("+allreviews[x].id +")>edit</button></td><td><button onclick=deleteReview("+allreviews[x].id +")>delete</button></td></tr>"
-        }
+            var allreviews = JSON.parse(this.responseText);
+            var finalstring = "<table border=1>"
+            for(var x = 0; x < allreviews.length; x++){
+                finalstring += `<tr>
+                    <td>${allreviews[x].name}</td>
+                    <td>${allreviews[x].rating}</td>
+                    <td>${allreviews[x].reviewText}</td>
+                    <td>${allreviews[x].approved}</td>
+                    <td><button onclick=updateReview(${allreviews[x].id})>edit</button></td>
+                    <td><button onclick=deleteReview(${allreviews[x].id})>delete</button></td> 
+                    <td><button onclick=toggleApproval(${allreviews[x].id})>approval</button></td>
+                    </tr>`
+                    
+            }
         finalstring += "</table>"
         document.getElementById('allReviews').innerHTML = finalstring;
         }
     }
-    xhr.open("get","http://localhost:8080/Reviews", true);
+    xhr.open("GET","http://localhost:8080/Reviews", true);
     xhr.send();
 }
 
@@ -85,5 +91,17 @@ function showAllreviews(){
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.send(theJSON);
  }
+function toggleApproval(id){
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function(){
+        if(this.readyState == 4){
+            console.log("Review approved");
+            showAllreviews();
+        }
+    }
+    xhr.open("PUT","http://localhost:8080/ApproveReview", true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.send(id);
+}
 
 </script>
