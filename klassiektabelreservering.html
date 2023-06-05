@@ -78,15 +78,16 @@
             reservation.endDate = document.getElementById("endDate").value;
             reservation.business = document.getElementById("business").value;
 
-            var room = {id:1};
+            //var room = {id:1};
 
-            reservation.rooms=[room];
+            //reservation.rooms=[room];
 
             var theJSON = JSON.stringify(reservation);
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function(){
                 if(this.readyState == 4){
-                    console.log("add succesful")
+                    console.log("add succesful");
+                    console.log(theJSON);
                     showReservations();
                 }
             }
