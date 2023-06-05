@@ -19,7 +19,7 @@
       <div class="input-group mb-3">
         <label class="input-group-text" for="amountPeople">Amount of people</label>
         <select class="form-select" id="amountPeople">
-          <option selected>1</option>
+          <option selected>Select</option>
           <option value="1">One</option>
           <option value="2">Two</option>
           <option value="3">Three</option>
@@ -58,11 +58,13 @@
       </div>
       <br>
       <!-- Button trigger modal -->
-<button type="button" onclick="reserveR()" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+<button type="button" onclick="reserveR()" class="btn btn-primary">
     Place reservation
   </button>
   
   <!-- Modal -->
+  <!-- The model currently serves no purpose. Leaving the code in, in case we need to add payment or confirmation buttons later 
+          If implementing again: beware that the button no longer calls the modal! This needs to be re-created.
   <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -79,7 +81,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
     <script>
       var reservationid
         function reserveR(){
@@ -108,6 +110,8 @@
             xhr.setRequestHeader("Content-Type","application/json");
             xhr.send(theJSON);
         }
+        /* Currently all reservations need manual approval by admin (in reservations CRUD). Leaving these booking-status functions in case we need them later.
+
         function bookR(reservationid){
             paymentStatus = true;
 
@@ -135,6 +139,7 @@
             xhr.setRequestHeader("Content-Type","application/json");
             xhr.send(reservationid);
         }
+        */
 
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
