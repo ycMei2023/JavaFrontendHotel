@@ -64,7 +64,7 @@
                     document.getElementById("allReservationsTable").innerHTML = endString;
                 }
             }
-            xhr.open("GET", "http://localhost:8080/reservations", true)
+            xhr.open("GET", "http://localhost:8080/reservationsByDate", true)
             xhr.send();
         }
 
@@ -86,7 +86,8 @@
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function(){
                 if(this.readyState == 4){
-                    console.log("add succesful")
+                    console.log("add succesful");
+                    console.log(theJSON);
                     showReservations();
                 }
             }
