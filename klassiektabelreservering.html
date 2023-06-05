@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Reservations</title>
     <script>
         showReservations();
         function showReservations(){
@@ -64,7 +64,7 @@
                     document.getElementById("allReservationsTable").innerHTML = endString;
                 }
             }
-            xhr.open("GET", "http://localhost:8080/reservations", true)
+            xhr.open("GET", "http://localhost:8080/reservationsByDate", true)
             xhr.send();
         }
 
@@ -78,15 +78,16 @@
             reservation.endDate = document.getElementById("endDate").value;
             reservation.business = document.getElementById("business").value;
 
-            var room = {id:1};
+            //var room = {id:1};
 
-            reservation.rooms=[room];
+            //reservation.rooms=[room];
 
             var theJSON = JSON.stringify(reservation);
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function(){
                 if(this.readyState == 4){
-                    console.log("add succesful")
+                    console.log("add succesful");
+                    console.log(theJSON);
                     showReservations();
                 }
             }
@@ -115,6 +116,8 @@
             xhr.send(theJSON);
         }
         function approveR(theid){
+            paymentStatus = true;
+
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function(){
                 if(this.readyState == 4){
@@ -122,7 +125,7 @@
                     showReservations();
                 }
             }
-            xhr.open("PUT", "http://localhost:8080/approvereservation", true)
+            xhr.open("PUT", "http://localhost:8080/approvereservation/"+paymentStatus, true)
             xhr.setRequestHeader("Content-Type","application/json");
             xhr.send(theid);
         }
