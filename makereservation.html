@@ -83,32 +83,39 @@
     </div>
   </div> -->
     <script>
-      var reservationid
+      var reservationid;
+      // Type in URL ?id=... with an existing room number
+      var params = new URLSearchParams(window.location.search);
+
         function reserveR(){
-            var reservationDto = {};
-            reservationDto.amountPeople = document.getElementById("amountPeople").value;
-            reservationDto.beginDate = document.getElementById("beginDate").value;
-            reservationDto.endDate = document.getElementById("endDate").value;
-            reservationDto.breakfast = document.getElementById("breakfastCheck").checked;
-            reservationDto.business = document.getElementById("businessCheck").checked;
+          //Reservation data
+          var reservationDto = {};
+          reservationDto.amountPeople = document.getElementById("amountPeople").value;
+          reservationDto.beginDate = document.getElementById("beginDate").value;
+          reservationDto.endDate = document.getElementById("endDate").value;
+          reservationDto.breakfast = document.getElementById("breakfastCheck").checked;
+          reservationDto.business = document.getElementById("businessCheck").checked;
 
-            var guest = {};
-            reservationDto.firstName = document.getElementById("firstName").value;
-            reservationDto.lastName = document.getElementById("lastName").value;
+          //Guest data
+          reservationDto.firstName = document.getElementById("firstName").value;
+          reservationDto.lastName = document.getElementById("lastName").value;
 
-            var theJSON = JSON.stringify(reservationDto);
-            var xhr = new XMLHttpRequest();
-            xhr.onreadystatechange = function(){
-                if(this.readyState == 4){
-                    console.log("reservation with guest linked succesfully");
-                    reservationid = JSON.parse(xhr.responseText);
-                    console.log(reservationid);
-                }
-            }
+          //Room data
+          reservationDto.roomId = params.get('id');
 
-            xhr.open("POST", "http://localhost:8080/addlinkedreservation", true)
-            xhr.setRequestHeader("Content-Type","application/json");
-            xhr.send(theJSON);
+          var theJSON = JSON.stringify(reservationDto);
+          var xhr = new XMLHttpRequest();
+          xhr.onreadystatechange = function(){
+              if(this.readyState == 4){
+                  console.log("reservation with guest linked succesfully");
+                  reservationid = JSON.parse(xhr.responseText);
+                  console.log("The reservation id is ", reservationid);
+              }
+          }
+
+          xhr.open("POST", "http://localhost:8080/addlinkedreservation", true)
+          xhr.setRequestHeader("Content-Type","application/json");
+          xhr.send(theJSON);
         }
         /* Currently all reservations need manual approval by admin (in reservations CRUD). Leaving these booking-status functions in case we need them later.
 
