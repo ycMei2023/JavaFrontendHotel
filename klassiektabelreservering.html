@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Reservations</title>
     <script>
         showReservations();
         function showReservations(){
@@ -116,6 +116,8 @@
             xhr.send(theJSON);
         }
         function approveR(theid){
+            paymentStatus = true;
+
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function(){
                 if(this.readyState == 4){
@@ -123,7 +125,7 @@
                     showReservations();
                 }
             }
-            xhr.open("PUT", "http://localhost:8080/approvereservation", true)
+            xhr.open("PUT", "http://localhost:8080/approvereservation/"+paymentStatus, true)
             xhr.setRequestHeader("Content-Type","application/json");
             xhr.send(theid);
         }
