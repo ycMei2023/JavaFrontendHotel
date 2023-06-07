@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="nav-placeholder">
+
+    </div>
+    <form>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" class="form-control" id="email" placeholder="Email">
+        </div>
+        <div class="form-group">
+            <label for="birthDate">Geboortedatum</label>
+            <input type="date" class="form-control" id="birthDate" placeholder="geboorte datum">
+          </div>
+        <div class="form-group">
+          <label for="password">Wachtwoord</label>
+          <input type="password" class="form-control" id="password" placeholder="Wachtwoord">
+        </div>
+          <button type="button" class="btn btn-primary mb-2" onclick="registerAccount()">Register</button>
+      </form>
+      
+      <div id="footer-placeholder">
+
+      </div>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+<script>$(function(){
+    $("#nav-placeholder").load("navbar.html");
+  });
+  $(function(){
+  $("#footer-placeholder").load("footer.html");
+});
+
+function registerAccount(){
+    var account ={};
+    account.email = document.getElementById("email").value;
+    account.password = document.getElementById("password").value;
+    account.birthDate = document.getElementById("birthDate").value;
+
+
+    var accountJSON = JSON.stringify(account);
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function(){
+        if(this.readyState == 4 && this.status == 200){
+          alert("Account aangemaakt")
+        }
+    }
+
+    xhr.open("POST","http://localhost:8080/addAccount", true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.send(accountJSON);
+
+}
+</script>
+</html>
