@@ -55,7 +55,7 @@
                             <td>${allReservations[x].approvalDate}</td>
                             <td><button onclick = approveR(${allReservations[x].id})> Approve </button></td>
                             <td><button onclick = deleteR(${allReservations[x].id})> Delete </button></td>
-                            <td><button onclick = addR(${allReservations[x].id})> Update </button></td>
+                            <td><button onclick = changeR(${allReservations[x].id})> Update </button></td>
                             </tr>`;
                         }
                     }
@@ -68,8 +68,7 @@
         }
 
         
-        function addR(updateId){
-            console.log(updateId);
+        function addR(){
             //Reservation data
             var reservationDto = {};
             reservationDto.amountPeople = document.getElementById("amount_people").value;
@@ -87,52 +86,54 @@
             reservationDto.roomId = document.getElementById("roomId").value;
 
             var theJSON = JSON.stringify(reservationDto);
-            console.log(theJSON);
 
             var xhr = new XMLHttpRequest();
-            if (updateId == null){
                 xhr.onreadystatechange = function(){
-                if(this.readyState == 4){
-                    console.log("Add succesful");
-                    showReservations();
+                    if(this.readyState == 4 && this.status == 200){
+                        console.log("Add succesful");
+                        showReservations();
+                    }
                 }
-                }
-                xhr.open("POST", "http://localhost:8080/addlinkedreservation", true)
+                xhr.open("POST", "http://localhost:8080/addLinkedReservation", true)
                 xhr.setRequestHeader("Content-Type","application/json");
                 xhr.send(theJSON);
-            } else {
-                xhr.onreadystatechange = function(){
-                if(this.readyState == 4){
-                    console.log("change succesful")
-                    showReservations();
-                }
-                }
-                xhr.open("PUT", "http://localhost:8080/changeLinkedReservation", true) //NOT IMPLEMENTED YET!!
-                xhr.setRequestHeader("Content-Type","application/json");
-                xhr.send(theJSON);
-            }
-
         }
+
         function changeR(theid){
-            var reservation = {};
-            reservation.amountPeople = document.getElementById("amount_people").value;
-            reservation.roomNumber = document.getElementById("room_number").value;
-            reservation.breakfast = document.getElementById("breakfast").value;
-            reservation.beginDate = document.getElementById("beginDate").value;
-            reservation.endDate = document.getElementById("endDate").value;
-            reservation.id = theid;
-            var theJSON = JSON.stringify(reservation);
+            //Reservation data
+            var reservationDto = {};
+            reservationDto.amountPeople = document.getElementById("amount_people").value;
+            reservationDto.roomNumber = document.getElementById("room_number").value;
+            reservationDto.breakfast = document.getElementById("breakfast").value;
+            reservationDto.beginDate = document.getElementById("beginDate").value;
+            reservationDto.endDate = document.getElementById("endDate").value;
+            reservationDto.business = document.getElementById("business").value;
+
+            //Guest data
+            reservationDto.firstName = document.getElementById("firstName").value;
+            reservationDto.lastName = document.getElementById("lastName").value;
+
+            //Room data
+            reservationDto.roomId = document.getElementById("roomId").value;
+
+            //ID to pass which entry needs to be updated
+            reservationDto.reservationId = theid;
+
+            var theJSON = JSON.stringify(reservationDto);
+            console.log(theJSON);
+           
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function(){
-                if(this.readyState == 4){
+                if(this.readyState == 4 && this.status == 200){
                     console.log("change succesful")
                     showReservations();
                 }
             }
-            xhr.open("PUT", "http://localhost:8080/changereservation", true)
+            xhr.open("PUT", "http://localhost:8080/changeLinkedReservation", true)
             xhr.setRequestHeader("Content-Type","application/json");
             xhr.send(theJSON);
         }
+
         function approveR(theid){
             paymentStatus = true;
 
