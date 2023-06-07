@@ -14,15 +14,15 @@
     </div>
     <form>
         <div class="form-group">
-          <label for="email">voornaam</label>
+          <label for="email">Email</label>
           <input type="email" class="form-control" id="email" placeholder="Email">
         </div>
         <div class="form-group">
-            <label for="birthDate">voornaam</label>
+            <label for="birthDate">Geboortedatum</label>
             <input type="date" class="form-control" id="birthDate" placeholder="geboorte datum">
           </div>
         <div class="form-group">
-          <label for="password">achternaam</label>
+          <label for="password">Wachtwoord</label>
           <input type="password" class="form-control" id="password" placeholder="Wachtwoord">
         </div>
           <button type="button" class="btn btn-primary mb-2" onclick="registerAccount()">Register</button>
@@ -50,7 +50,8 @@ function registerAccount(){
     var accountJSON = JSON.stringify(account);
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function(){
-        if(this.readyState == 4){
+        if(this.readyState == 4 && this.status == 200){
+          alert("Account aangemaakt")
         }
     }
 
