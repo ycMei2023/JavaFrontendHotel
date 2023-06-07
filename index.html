@@ -82,6 +82,37 @@
   }
 
   </style>
+  <script>
+
+  function showReviews(){
+      var xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+          var allReviews = JSON.parse(this.responseText);
+          const shuffleArray = arr => arr.sort(() => Math.random() - 0.5);
+          const shuffledArr = shuffleArray(allReviews);
+          var reviewsHTML = '';
+          for (var i = 0; i < 3; i++) {
+            var review = shuffledArr[i];
+            reviewsHTML += `
+              <div class="col-md-4">
+                <div class="card">
+                  <h4>${review.name}</h4>
+                  <h5> ${review.rating}</h5>
+                  <p> ${review.reviewText}</p>
+                </div>
+              </div>
+            `;
+          }
+          document.getElementById("reviewsContainer").innerHTML = reviewsHTML;
+        }
+      };
+
+      xhr.open("GET", "http://localhost:8080/ApprovedReviews", true)
+      xhr.send();
+    }
+
+  </script>
 </head>
 
 <body>
@@ -128,7 +159,7 @@
     </div>
   </div>
 
-  <section class="reviews review-section">
+  <section class="reviewsContainerSection">
     <div class="container">
       <div class="row">
         <div class="col-md-12">
@@ -136,31 +167,8 @@
           <hr class="section-line">
         </div>
       </div>
-      <div class="row">
-        <div class="col-md-4">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">John Doe</h5>
-              <p class="card-text">"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean dapibus ex in est placerat, a aliquam urna dapibus. Proin scelerisque, justo eu feugiat rhoncus."</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Jane Smith</h5>
-              <p class="card-text">"Nulla eget ligula a odio fermentum ultrices nec a purus. Sed eget lorem suscipit, ultricies ipsum vel, semper arcu."</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Mike Johnson</h5>
-              <p class="card-text">"Fusce vel nisi eu lacus feugiat rhoncus a vitae dui. Suspendisse potenti. Sed tristique orci vitae lorem egestas, eget ultricies mi egestas."</p>
-            </div>
-          </div>
-        </div>
+      
+      <div class="row" id="reviewsContainer">
       </div>
     </div>
   </section>
@@ -199,12 +207,15 @@
   
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  <script>$(function(){
+  <script>  
+  $(function(){
     $("#nav-placeholder").load("navbar.html");
   });
   $(function(){
-  $("#footer-placeholder").load("footer.html");
-});
+    $("#footer-placeholder").load("footer.html");
+  });
+
+  showReviews();
 </script>
 </body>
 
