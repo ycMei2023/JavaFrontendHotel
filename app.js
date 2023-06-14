@@ -1,1 +1,1 @@
-var url = 'https://yc2305javabackend.azurewebsites.net';
+var url = 'https://yc2305hotelbackend.azurewebsites.net';
