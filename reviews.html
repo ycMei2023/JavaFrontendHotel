@@ -43,7 +43,7 @@ function showAllreviews(){
         document.getElementById('allReviews').innerHTML = finalstring;
         }
     }
-    xhr.open("GET","http://localhost:8080/Reviews", true);
+    xhr.open("GET","https://yc2305javabackend.azurewebsites.net/Reviews", true);
     xhr.send();
 }
 
@@ -59,7 +59,7 @@ function showAllreviews(){
         }
     }
 
-    xhr.open("POST","http://localhost:8080/AddReview", true);
+    xhr.open("POST","https://yc2305javabackend.azurewebsites.net/AddReview", true);
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.send(theJSON);
  }
@@ -70,7 +70,7 @@ function showAllreviews(){
         if(this.readyState == 4){
         }
     }
-    xhr.open("DELETE","http://localhost:8080/DeleteReview/"+id, true);
+    xhr.open("DELETE","https://yc2305javabackend.azurewebsites.net/DeleteReview/"+id, true);
     xhr.send();
  }
  function updateReview(id){
@@ -87,7 +87,7 @@ function showAllreviews(){
         }
     }
     
-    xhr.open("PUT","http://localhost:8080/UpdateReview", true);
+    xhr.open("PUT","https://yc2305javabackend.azurewebsites.net/UpdateReview", true);
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.send(theJSON);
  }
@@ -99,7 +99,7 @@ function toggleApproval(id){
             showAllreviews();
         }
     }
-    xhr.open("PUT","http://localhost:8080/ApproveReview", true);
+    xhr.open("PUT","https://yc2305javabackend.azurewebsites.net/ApproveReview", true);
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.send(id);
 }

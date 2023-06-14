@@ -64,7 +64,7 @@
                     document.getElementById("allReservationsTable").innerHTML = endString;
                 }
             }
-            xhr.open("GET", "http://localhost:8080/reservationsByDate", true)
+            xhr.open("GET", "https://yc2305javabackend.azurewebsites.net/reservationsByDate", true)
             xhr.send();
         }
 
@@ -91,7 +91,7 @@
                     showReservations();
                 }
             }
-            xhr.open("POST", "http://localhost:8080/addreservation", true)
+            xhr.open("POST", "https://yc2305javabackend.azurewebsites.net/addreservation", true)
             xhr.setRequestHeader("Content-Type","application/json");
             xhr.send(theJSON);
         }
@@ -111,7 +111,7 @@
                     showReservations();
                 }
             }
-            xhr.open("PUT", "http://localhost:8080/changereservation", true)
+            xhr.open("PUT", "https://yc2305javabackend.azurewebsites.net/changereservation", true)
             xhr.setRequestHeader("Content-Type","application/json");
             xhr.send(theJSON);
         }
@@ -125,7 +125,7 @@
                     showReservations();
                 }
             }
-            xhr.open("PUT", "http://localhost:8080/approvereservation/"+paymentStatus, true)
+            xhr.open("PUT", "https://yc2305javabackend.azurewebsites.net/approvereservation/"+paymentStatus, true)
             xhr.setRequestHeader("Content-Type","application/json");
             xhr.send(theid);
         }
@@ -136,7 +136,7 @@
                     showReservations();
                 }
             }
-            xhr.open("DELETE", "http://localhost:8080/deletereservation/"+theid, true)
+            xhr.open("DELETE", "https://yc2305javabackend.azurewebsites.net/deletereservation/"+theid, true)
             xhr.send();
             console.log("I am deleting: " + theid);
         }
