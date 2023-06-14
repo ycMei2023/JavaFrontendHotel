@@ -83,6 +83,8 @@
 
   </style>
   <script>
+  var A = require('./app.js');
+  console.log(A.url)
 
   function showReviews(){
       var xhr = new XMLHttpRequest();
@@ -108,7 +110,7 @@
         }
       };
 
-      xhr.open("GET", "https://yc2305javabackend.azurewebsites.net/ApprovedReviews", true)
+      xhr.open("GET", A.url+"/ApprovedReviews", true)
       xhr.send();
     }
 
