@@ -45,6 +45,7 @@ function registerAccount(){
     account.email = document.getElementById("email").value;
     account.password = document.getElementById("password").value;
     account.birthDate = document.getElementById("birthDate").value;
+    
 
 
     var accountJSON = JSON.stringify(account);
@@ -55,7 +56,7 @@ function registerAccount(){
         }
     }
 
-    xhr.open("POST","https://yc2305javabackend.azurewebsites.net/addAccount", true);
+    xhr.open("POST","http://localhost:8080/addAccount", true);
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.send(accountJSON);
 

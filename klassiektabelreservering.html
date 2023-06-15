@@ -1,5 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+    <script>
+        if(sessionStorage.getItem('userType') == 1){
+        } else {
+            window.location.href='index.html';
+        }
+    
+    </script>
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,7 +18,6 @@
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function(){
                 if(this.readyState == 4){
-                    console.log(this.responseText)
                     var allReservations = JSON.parse(this.responseText);
                     var endString = `<table border=1><thead><tr>
                         <th>ID</th>
@@ -64,57 +70,76 @@
                     document.getElementById("allReservationsTable").innerHTML = endString;
                 }
             }
-            xhr.open("GET", "https://yc2305javabackend.azurewebsites.net/reservationsByDate", true)
+            xhr.open("GET", "http://localhost:8080/reservationsByDate", true)
             xhr.send();
         }
 
         
         function addR(){
-            var reservation = {};
-            reservation.amountPeople = document.getElementById("amount_people").value;
-            reservation.roomNumber = document.getElementById("room_number").value;
-            reservation.breakfast = document.getElementById("breakfast").value;
-            reservation.beginDate = document.getElementById("beginDate").value;
-            reservation.endDate = document.getElementById("endDate").value;
-            reservation.business = document.getElementById("business").value;
+            //Reservation data
+            var reservationDto = {};
+            reservationDto.amountPeople = document.getElementById("amount_people").value;
+            reservationDto.roomNumber = document.getElementById("room_number").value;
+            reservationDto.breakfast = document.getElementById("breakfast").value;
+            reservationDto.beginDate = document.getElementById("beginDate").value;
+            reservationDto.endDate = document.getElementById("endDate").value;
+            reservationDto.business = document.getElementById("business").value;
 
-            //var room = {id:1};
+            //Guest data
+            reservationDto.firstName = document.getElementById("firstName").value;
+            reservationDto.lastName = document.getElementById("lastName").value;
 
-            //reservation.rooms=[room];
+            //Room data
+            reservationDto.roomId = document.getElementById("roomId").value;
 
-            var theJSON = JSON.stringify(reservation);
+            var theJSON = JSON.stringify(reservationDto);
+
             var xhr = new XMLHttpRequest();
-            xhr.onreadystatechange = function(){
-                if(this.readyState == 4){
-                    console.log("add succesful");
-                    console.log(theJSON);
-                    showReservations();
+                xhr.onreadystatechange = function(){
+                    if(this.readyState == 4 && this.status == 200){
+                        console.log("Add succesful");
+                        showReservations();
+                    }
                 }
-            }
-            xhr.open("POST", "https://yc2305javabackend.azurewebsites.net/addreservation", true)
-            xhr.setRequestHeader("Content-Type","application/json");
-            xhr.send(theJSON);
+                xhr.open("POST", "http://localhost:8080/addLinkedReservation", true)
+                xhr.setRequestHeader("Content-Type","application/json");
+                xhr.send(theJSON);
         }
+
         function changeR(theid){
-            var reservation = {};
-            reservation.amountPeople = document.getElementById("amount_people").value;
-            reservation.roomNumber = document.getElementById("room_number").value;
-            reservation.breakfast = document.getElementById("breakfast").value;
-            reservation.beginDate = document.getElementById("beginDate").value;
-            reservation.endDate = document.getElementById("endDate").value;
-            reservation.id = theid;
-            var theJSON = JSON.stringify(reservation);
+            //Reservation data
+            var reservationDto = {};
+            reservationDto.amountPeople = document.getElementById("amount_people").value;
+            reservationDto.roomNumber = document.getElementById("room_number").value;
+            reservationDto.breakfast = document.getElementById("breakfast").value;
+            reservationDto.beginDate = document.getElementById("beginDate").value;
+            reservationDto.endDate = document.getElementById("endDate").value;
+            reservationDto.business = document.getElementById("business").value;
+
+            //Guest data
+            reservationDto.firstName = document.getElementById("firstName").value;
+            reservationDto.lastName = document.getElementById("lastName").value;
+
+            //Room data
+            reservationDto.roomId = document.getElementById("roomId").value;
+
+            //ID to pass which entry needs to be updated
+            reservationDto.reservationId = theid;
+
+            var theJSON = JSON.stringify(reservationDto);
+           
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function(){
-                if(this.readyState == 4){
+                if(this.readyState == 4 && this.status == 200){
                     console.log("change succesful")
                     showReservations();
                 }
             }
-            xhr.open("PUT", "https://yc2305javabackend.azurewebsites.net/changereservation", true)
+            xhr.open("PUT", "http://localhost:8080/changeLinkedReservation", true)
             xhr.setRequestHeader("Content-Type","application/json");
             xhr.send(theJSON);
         }
+
         function approveR(theid){
             paymentStatus = true;
 
@@ -125,7 +150,7 @@
                     showReservations();
                 }
             }
-            xhr.open("PUT", "https://yc2305javabackend.azurewebsites.net/approvereservation/"+paymentStatus, true)
+            xhr.open("PUT", "http://localhost:8080/approvereservation/"+paymentStatus, true)
             xhr.setRequestHeader("Content-Type","application/json");
             xhr.send(theid);
         }
@@ -136,7 +161,7 @@
                     showReservations();
                 }
             }
-            xhr.open("DELETE", "https://yc2305javabackend.azurewebsites.net/deletereservation/"+theid, true)
+            xhr.open("DELETE", "http://localhost:8080/deletereservation/"+theid, true)
             xhr.send();
             console.log("I am deleting: " + theid);
         }
@@ -146,10 +171,13 @@
     Begin Date:<br><input type="date" id="beginDate"><br>
     End Date:<br><input type="date" id="endDate"><br>
     Amount of people<br><input id="amount_people"><br>
-    Room No.<br><input id="room_number"><br>
+    Room No. - decrepitated <br><input id="room_number"><br>
     Breakfast<br><select id="breakfast"><option value="false">false</option><option value="true">true</option></select><br>
     Business<br><select id="business"><option value="false">false</option><option value="true">true</option></select><br><br>
-    <button onclick = "addR()">add</button><br><br>
+    First Name<br><input id="firstName"><br>
+    Last Name<br><input id="lastName"><br>
+    Room ID<br><input id="roomId"><br>
+    <button onclick = "addR(null)">add</button><br><br>
     Show only payed reservations? <select id="filterByPayed"><option value="false">false</option><option value="true">true</option></select> 
     <button onclick="showReservations()">Show all reservations</button>
     

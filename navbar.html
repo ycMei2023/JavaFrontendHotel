@@ -7,19 +7,20 @@
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav ms-auto">
       <li class="nav-item active">
-        <a class="nav-link me-1" href="#">Home</a>
+        <a class="nav-link me-1" href="index.html">Home</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link me-1" href="#">About</a>
+        <a class="nav-link me-1" href="submitReview.html">Review</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link me-1" href="#">Review</a>
+        <a class="nav-link me-1" href="contact.html">Contact</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link me-1" href="#">Contact</a>
+      <li id="adminPage" class="nav-item">
+        <a class="nav-link me-1" href="hubPage.html">Admin Panel</a>
       </li>
       <li>
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginModal">login</button>
+      <li>
+        <div id="loginButton"></div>
       </li>
     </ul>
   </div>
@@ -37,7 +38,7 @@
       </div>
       <div class="modal-body">
         <div class="mb-3">
-          <label for="login-username" class="form-label">Gebruikersnaam</label>
+          <label for="login-username" class="form-label">email</label>
           <input type="text" class="form-control" id="login-username" placeholder="name@example.com">
         </div>
 
@@ -61,10 +62,53 @@
 </div>
 
 <script>
-  function loginUser() {
-    name = document.getElementById('username').value;
-    console.log(name)
+  if(sessionStorage.getItem('email') != null){
+    document.getElementById('loginButton').innerHTML='<button type="button" class="btn btn-primary" onclick="logout()">logout</button>';
+  }else{
+    document.getElementById('loginButton').innerHTML='<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginModal">login</button>';
   }
+  if(sessionStorage.getItem('userType') == 1){
+    $('#adminPage').show()
+  }if(sessionStorage.getItem('userType') != 1){
+    $('#adminPage').hide()  }
+  
+
+  function logout(){
+    sessionStorage.clear()
+    window.location.href='index.html';
+  }
+
+  function loginUser() {
+    var account= {};
+    account.email = document.getElementById('login-username').value;
+    account.password = document.getElementById('login-password').value;
+    var accountJSON = JSON.stringify(account);
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function(){
+        if(this.readyState == 4 && this.status == 200){
+          var returnUser = JSON.parse(xhr.responseText);
+          console.log(returnUser);
+          if(returnUser.email != null){
+            sessionStorage.setItem("email", returnUser.email);
+            sessionStorage.setItem('points', returnUser.points);
+            sessionStorage.setItem('birthDate', returnUser.birthDate);
+            sessionStorage.setItem('userType', returnUser.userType);
+            alert("login succesfull")
+            window.location.href='index.html';
+          }
+          else{
+            alert("login unsuccesfull")
+          }
+        }
+    }
+
+    xhr.open("POST","http://localhost:8080/login", true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.send(accountJSON);
+  }
+
+
+
 </script>
 
 </html>

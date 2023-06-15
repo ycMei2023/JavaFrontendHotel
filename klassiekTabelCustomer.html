@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-
+    <script>
+        if(sessionStorage.getItem('userType') == 1){
+        } else {
+            window.location.href='index.html';
+        }
+    
+    </script>
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -86,17 +92,17 @@
 
 <body>
     <label for="nameCustomer">First Name:</label>
-    <input id="nameCustomer">
+    <input id="nameCustomer" type="text">
     <br>
     <label for="lastNameCustomer">Last Name:</label>
-    <input id="lastNameCustomer">
+    <input id="lastNameCustomer" type="text">
     <br>
     <label for="addressCustomer">Address:</label>
-    <input id="addressCustomer">
+    <input id="addressCustomer" type="text">
 
     <br>
     <label for="emailCustomer">Email:</label>
-    <input id="emailCustomer">
+    <input id="emailCustomer" type="email">
     <br>
     <button onclick="addName()">Add a customer</button>
     <button onclick="showCustomer()">Show all customers</button>

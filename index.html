@@ -23,9 +23,10 @@
     .hero-wrapper {
       background-size: cover;
       background-position: center;
-      color: black;
+      color: white;
       padding: 100px 0;
       background-color: #f2f2f2;
+      background-image:url(img/pexels-pixabay-210529.jpg)
     }
 
     .hero-form {
@@ -84,9 +85,32 @@
     padding: 150px 0;
   }
 
+  .symbols {
+    background-color: #f2f2f2;
+    padding: 50px 0;
+  }
+
+  .symbols .symbol-item {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  
+
+  .symbols .symbol-item h3 {
+    font-size: 24px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+
+  .symbols .symbol-item p {
+    font-size: 16px;
+    color: #777;
+    margin-bottom: 0;
+  }
+
   </style>
   <script type="text/javascript">
-  console.log(url)
 
   function showReviews(){
       var xhr = new XMLHttpRequest();
@@ -163,7 +187,9 @@
     </div>
   </div>
 
+
   <section class="reviewsContainerSection">
+
     <div class="container">
       <div class="row">
         <div class="col-md-12">
@@ -177,13 +203,31 @@
     </div>
   </section>
 
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-12 p-0">
-        <img src="img/pexels-roberto-nickson-2631613.jpg" alt="Hotel Picture" class="hotel-picture">
+  
+  <section class="symbols">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 symbol-item">
+          <i class="fa fa-tag fa-4x"></i>
+          <h3>Lowest Price Guarantee</h3>
+          <p>Always the best prices!</p>
+        </div>
+        <div class="col-md-4 symbol-item">
+          <i class="fa fa-car fa-4x"></i>
+          <h3>Free Parking</h3>
+          <p>Our Hotels always have parking spaces available. Parking is free at almost all of our hotels.</p>
+        </div>
+        <div class="col-md-4 symbol-item">
+          <i class="fa fa-wifi fa-4x"></i>
+          <h3>Free WiFi</h3>
+          <p>Free internet access. Including the hotel rooms.</p>
+        </div>
       </div>
     </div>
-  </div>
+  </section>
+  
+
+  
 
   <section class="hotel-info hotel-section">
     <div class="container">
