@@ -11,6 +11,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript"
+        src="app.js">
+    </script>
     <title>Document</title>
 </head>
 <body>
@@ -26,7 +29,7 @@
 
 
 
-<script>
+<script type="text/javascript">
 
 function showAllreviews(){
     var xhr = new XMLHttpRequest();
@@ -50,7 +53,7 @@ function showAllreviews(){
         document.getElementById('allReviews').innerHTML = finalstring;
         }
     }
-    xhr.open("GET","http://localhost:8080/Reviews", true);
+    xhr.open("GET",url+"/Reviews", true);
     xhr.send();
 }
 
@@ -66,7 +69,7 @@ function showAllreviews(){
         }
     }
 
-    xhr.open("POST","http://localhost:8080/AddReview", true);
+    xhr.open("POST",url+"/AddReview", true);
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.send(theJSON);
  }
@@ -77,7 +80,7 @@ function showAllreviews(){
         if(this.readyState == 4){
         }
     }
-    xhr.open("DELETE","http://localhost:8080/DeleteReview/"+id, true);
+    xhr.open("DELETE",url+"/DeleteReview/"+id, true);
     xhr.send();
  }
  function updateReview(id){
@@ -94,7 +97,7 @@ function showAllreviews(){
         }
     }
     
-    xhr.open("PUT","http://localhost:8080/UpdateReview", true);
+    xhr.open("PUT",url+"/UpdateReview", true);
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.send(theJSON);
  }
@@ -106,7 +109,7 @@ function toggleApproval(id){
             showAllreviews();
         }
     }
-    xhr.open("PUT","http://localhost:8080/ApproveReview", true);
+    xhr.open("PUT",url+"/ApproveReview", true);
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.send(id);
 }

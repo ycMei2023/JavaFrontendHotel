@@ -11,8 +11,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript"
+        src="app.js">
+    </script>
     <title>Reservations</title>
-    <script>
+    <script type="text/javascript">
         showReservations();
         function showReservations(){
             var xhr = new XMLHttpRequest();
@@ -70,7 +73,7 @@
                     document.getElementById("allReservationsTable").innerHTML = endString;
                 }
             }
-            xhr.open("GET", "http://localhost:8080/reservationsByDate", true)
+            xhr.open("GET", url+"/reservationsByDate", true)
             xhr.send();
         }
 
@@ -101,7 +104,7 @@
                         showReservations();
                     }
                 }
-                xhr.open("POST", "http://localhost:8080/addLinkedReservation", true)
+                xhr.open("POST", url+"/addLinkedReservation", true)
                 xhr.setRequestHeader("Content-Type","application/json");
                 xhr.send(theJSON);
         }
@@ -135,7 +138,7 @@
                     showReservations();
                 }
             }
-            xhr.open("PUT", "http://localhost:8080/changeLinkedReservation", true)
+            xhr.open("PUT", url+"/changeLinkedReservation", true)
             xhr.setRequestHeader("Content-Type","application/json");
             xhr.send(theJSON);
         }
@@ -150,7 +153,7 @@
                     showReservations();
                 }
             }
-            xhr.open("PUT", "http://localhost:8080/approvereservation/"+paymentStatus, true)
+            xhr.open("PUT", url+"/approvereservation/"+paymentStatus, true)
             xhr.setRequestHeader("Content-Type","application/json");
             xhr.send(theid);
         }
@@ -161,7 +164,7 @@
                     showReservations();
                 }
             }
-            xhr.open("DELETE", "http://localhost:8080/deletereservation/"+theid, true)
+            xhr.open("DELETE", url+"/deletereservation/"+theid, true)
             xhr.send();
             console.log("I am deleting: " + theid);
         }

@@ -11,6 +11,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript"
+        src="app.js">
+    </script>
     <title>Document</title>
 
     <style>
@@ -27,7 +30,7 @@
         }
     </style>
 
-    <script>
+    <script type="text/javascript">
         function showCustomer() {
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function () {
@@ -47,7 +50,7 @@
                     document.getElementById("allCustomers").innerHTML = endString;
                 }
             };
-            xhr.open("GET", "http://localhost:8080/thecustomer", true);
+            xhr.open("GET", url+"/thecustomer", true);
             xhr.send();
         }
 
@@ -70,7 +73,7 @@
                     document.getElementById("emailCustomer").value = "";
                 }
             };
-            xhr.open("POST", "http://localhost:8080/addcustomer", true);
+            xhr.open("POST", url+"/addcustomer", true);
             xhr.setRequestHeader("Content-type", "application/json");
             xhr.send(deJSON);
         }
@@ -84,7 +87,7 @@
                     showCustomer();
                 }
             };
-            xhr.open("DELETE", "http://localhost:8080/deletecustomer/" + id, true);
+            xhr.open("DELETE", url+"/deletecustomer/" + id, true);
             xhr.send();
         }
     </script>

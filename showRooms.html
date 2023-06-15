@@ -6,6 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+  <script type="text/javascript"
+    src="app.js">
+  </script>
   <title>Java Hotel YC</title>
   <style>
      .panel {
@@ -90,7 +93,7 @@
     width: 50%;
   }
   </style>
-   <script>
+   <script type="text/javascript">
     function showRooms() {
       var xhr = new XMLHttpRequest();
       xhr.onreadystatechange = function () {
@@ -114,7 +117,7 @@
           document.getElementById("roomsContainer").innerHTML = roomsHTML;
         }
       };
-      xhr.open("GET", "http://localhost:8080/allRooms", true);
+      xhr.open("GET", url+"/allRooms", true);
       xhr.send();
     }
   </script>
