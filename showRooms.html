@@ -93,40 +93,14 @@
     width: 50%;
   }
   </style>
-   <script type="text/javascript">
-    function showRooms() {
-      var xhr = new XMLHttpRequest();
-      xhr.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-          var allRooms = JSON.parse(this.responseText);
-          var roomsHTML = '';
-          for (var i = 0; i < allRooms.length; i++) {
-            var room = allRooms[i];
-            roomsHTML += `
-              <div class="col-md-4">
-                <div class="room-card">
-                    <img src="img/kamer${room.type}.jpg" alt="${room.type}">
-                  <h4>${room.type}</h4>
-                  <p>Room Number: ${room.roomNo}</p>
-                  <p class="price">$${room.price} per night</p>
-                  <a href="#" class="btn btn-book">Book Now</a>
-                </div>
-              </div>
-            `;
-          }
-          document.getElementById("roomsContainer").innerHTML = roomsHTML;
-        }
-      };
-      xhr.open("GET", url+"/allRooms", true);
-      xhr.send();
-    }
-  </script>
 </head>
 
 <body>
   <div id="nav-placeholder">
 
   </div>
+<!-- Disabled because all info for search is set in index.html, not on this page. 
+  For a new search, go back to index.html
 
   <div class="hero-wrapper">
     <div class="container text-center">
@@ -166,33 +140,30 @@
       </div>
     </div>
   </div>
-
+-->
   <div class="container mt-4">
     <div class="row">
       <div class="col-md-12">
-        <h2 class="section-header">Available Rooms</h2>
+        <h2 class="section-header">Beschikbare kamers</h2>
         <hr class="section-line">
       </div>
     </div>
+  </div>
+
+  <div class="container mt-4 text-center">
+    <div class="row">
+      <div class="col" id="params">  
+        Will contain parameters
+      </div>
+    </div>
+  </div>
 
   <div class="container mt-4">
     <div class="row" id="roomsContainer">
       <div class="col-md-4">
         <div class="room-card">
-          <img src="room1.jpg" alt="Room 1"  class="room-image">
-          <a href="#" class="btn btn-book">Book Now</a>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="room-card">
-          <img src="room2.jpg" alt="Room 2"  class="room-image">
-          <a href="#" class="btn btn-book">Book Now</a>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="room-card">
-          <img src="room3.jpg" alt="Room 3"  class="room-image">
-          <a href="#" class="btn btn-book">Book Now</a>
+          <p>Sorry, geen kamers beschikbaar! Probeer een andere datum.</p>
+          <a href="index.html" class="btn btn-book">Terug</a>
         </div>
       </div>
     </div>
@@ -204,16 +175,102 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  <script>
+  <script type="text/javascript">
+    // NAV-bar
     $(function(){
-  $("#nav-placeholder").load("navbar.html");
-});
-$(function(){
-  $("#footer-placeholder").load("footer.html");
-});
+      $("#nav-placeholder").load("navbar.html");
+    });
+    $(function(){
+      $("#footer-placeholder").load("footer.html");
+    });
 
+    //Retrieve arguments from URL, received from index.html
+    var urlParams = new URL(window.location).searchParams;
+    var checkInDate = urlParams.get("checkInDate");
+    var checkOutDate = urlParams.get("checkOutDate");
+    var numGuests = urlParams.get("adults");
+
+    //Show used dates on page
+    var dataSummary = "";
+    dataSummary += `Beschikbaar van ${checkInDate} 
+    tot en met ${checkOutDate}.
+    Klik op Home om een andere datum te selecteren.`;
+
+    document.getElementById("params").innerHTML = dataSummary;
     
-    showRooms();
+    function checkRooms(checkInDate, checkOutDate){
+      fetch(url+'/vacantRooms/' + checkInDate + '/' + checkOutDate)
+        .then(response => response.json())
+        .then(availableRooms => displayRooms(availableRooms))
+    }
+
+    function displayRooms(availableRooms){
+
+      // Operates by looking for the available types. 
+      // It then picks the first room of a type and crates a card to show.
+      // It stops when all types are present, or when it runs out of rooms to check.
+      // The id of the chosen room is embedded in the button behavior.
+
+      var availableRooms = availableRooms;
+      // In case no rooms are found, alter div with id "params"
+      if (availableRooms.length == 0){
+        document.getElementById("params").innerHTML = `<div> 
+          Helaas! Er zijn geen kamers beschikbaar op uw gekozen data. Misschien kunnen we u op een ander moment verwelkomen?
+          </div>
+          <a class="btn btn-primary" href="/index.html" role="button">Zoek opnieuw</a>`;
+      }
+
+
+      var types = ["single", "double", "family"];
+      var typesTranslated = {single:"Eenpersoonskamer", double:"Tweepersoonskamer", family:"Familiekamer"};
+      var roomsHTML = '';
+
+      for (var i = 0; i < types.length; i++) {
+        for (var j = 0; j < availableRooms.length; j++) {
+
+          if (availableRooms[j].type == types[i]) {
+
+            //Translate room type for the card
+            var kamertype = "Kamertype";
+            switch(availableRooms[j].type){
+              case "single":
+                kamertype = typesTranslated.single;
+                break;
+              case "double":
+                kamertype = typesTranslated.double;
+                break;
+              case "family":
+                kamertype = typesTranslated.family;
+                break;
+            }
+
+            // The card has a button that moves to the booking page.
+            // Generate URL for that button.
+
+            var buttonURL = "/makereservation.html?" + urlParams.toString() + "&roomId=" + availableRooms[j].id;
+
+            // Create card for the room type
+            roomsHTML += `
+              <div class="col-md-4">
+                <div class="room-card">
+                  <img src="img/kamer${availableRooms[j].type}.jpg" alt="${availableRooms[j].type}">
+                  <h4>${kamertype}</h4>
+                  <p class="price">€${availableRooms[j].price} per nacht</p>
+                  <a href=${buttonURL} class="btn btn-book">Boek nu</a>
+                </div>
+              </div>
+              `;
+            break;
+          }
+        }
+      }
+
+      document.getElementById("roomsContainer").innerHTML = roomsHTML;
+
+    }
+
+    checkRooms(checkInDate, checkOutDate);
+
   </script>
 </body>
 

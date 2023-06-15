@@ -11,21 +11,29 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
     <script type="text/javascript"
       src="app.js">
     </script>
-    <title>Make a reservation</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <title>Java Hotel YC</title>
 </head>
 <body>
+    <div id="nav-placeholder">
+    </div>
     <br>
+    <div class="container">
+    <div class="row">
+    <div class="col">
+      <p>Samenvatting placeholder. Bevat: check-in datum, check-uit datum, aantal personen en kamertype.</p>
+  
     <div class="input-group mb-3">
         <span class="input-group-text" >Forename</span>
         <input id="firstName" type="text" class="form-control" placeholder="First name" aria-label="guest's first name" aria-describedby="basic-addon1">
         <span class="input-group-text" >Surname</span>
         <input id="lastName" type="text" class="form-control" placeholder="Last Name" aria-label="guest's last name" aria-describedby="basic-addon2">
-      </div>
-
+    </div>
+    <!-- DO NOT REMOVE YET - instead grey-out and show pre-filled data that was grabbed from the URL
       <div class="input-group mb-3">
         <label class="input-group-text" for="amountPeople">Amount of people</label>
         <select class="form-select" id="amountPeople">
@@ -47,7 +55,7 @@
         <span class="input-group-text" >End date</span>
         <input id="endDate" type="date" class="form-control" aria-label="guest's end date" aria-describedby="basic-addon2">
       </div>
-
+    -->
       <div class="input-group mb-3">
         <span class="input-group-text" id="basic-addon2">Phone Number</span>
         <input type="number" class="form-control" placeholder="31 06 4444444" aria-label="guest's phone number" aria-describedby="basic-addon3">
@@ -56,21 +64,25 @@
       <div class="form-check">
         <input class="form-check-input" type="checkbox" value="" id="breakfastCheck">
         <label class="form-check-label" for="breakfastCheck">
-          Added Breakfast +$3.50
+          Ontbijt toevoegen (€15 per persoon per nacht)
         </label>
       </div>
 
       <div class="form-check">
         <input class="form-check-input" type="checkbox" value="" id="businessCheck">
         <label class="form-check-label" for="businessCheck">
-          Business stay
+          Zakelijk verblijf
         </label>
       </div>
       <br>
-      <!-- Button trigger modal -->
-<button type="button" onclick="reserveR()" class="btn btn-primary">
-    Place reservation
-  </button>
+      <button type="button" onclick="reserveR()" class="btn btn-primary"> Kamer reserveren </button>
+
+    </div>
+    </div>
+    </div>
+
+    <div id="footer-placeholder">
+    </div>
   
   <!-- Modal -->
   <!-- The model currently serves no purpose. Leaving the code in, in case we need to add payment or confirmation buttons later 
@@ -92,7 +104,24 @@
       </div>
     </div>
   </div> -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script type="text/javascript">
+      // NAV-bar
+      $(function(){
+        $("#nav-placeholder").load("navbar.html");
+      });
+      $(function(){
+        $("#footer-placeholder").load("footer.html");
+      });      
+
+      // Collect previously passed parameters
+      var urlParams = new URL(window.location).searchParams;
+      var checkInDate = urlParams.get("checkInDate");
+      var checkOutDate = urlParams.get("checkOutDate");
+      var numGuests = urlParams.get("adults");
+      var roomId = urlParams.get("roomId");
+
       var reservationid;
       // Type in URL ?id=... with an existing room number
       var params = new URLSearchParams(window.location.search);
@@ -102,12 +131,12 @@
             var reservationDto = {};
 
             // Room data
-            reservationDto.amountPeople = document.getElementById("amountPeople").value;
-            reservationDto.beginDate = document.getElementById("beginDate").value;
-            reservationDto.endDate = document.getElementById("endDate").value;
+            reservationDto.amountPeople = numGuests;
+            reservationDto.beginDate = checkInDate;
+            reservationDto.endDate = checkOutDate;
             reservationDto.breakfast = document.getElementById("breakfastCheck").checked;
             reservationDto.business = document.getElementById("businessCheck").checked;
-            reservationDto.roomId = params.get('id');
+            reservationDto.roomId = roomId;
 
             // Gues data
             reservationDto.firstName = document.getElementById("firstName").value;
@@ -116,13 +145,12 @@
           var theJSON = JSON.stringify(reservationDto);
           var xhr = new XMLHttpRequest();
           xhr.onreadystatechange = function(){
-              if(this.readyState == 4){
-                  console.log("reservation with guest linked succesfully");
+              if(this.readyState == 4 && this.status == 200){
                   reservationid = JSON.parse(xhr.responseText);
-                  console.log("The reservation id is ", reservationid);
                   xhr.open("POST", url+"/addlinkedreservation", true)
                   xhr.setRequestHeader("Content-Type","application/json");
                   xhr.send(theJSON);
+                  bookingComplete(reservationId);
               }
               else{
                 alert("start datum kan niet na einddatum zijn")
@@ -168,7 +196,9 @@
             xhr.send(reservationid);
         }
         */
-
+      function bookingComplete(reservationId){
+        window.location.href = "/reservationCompleted.html?reservationId="+reservationId;
+      }
 
 
     </script>
