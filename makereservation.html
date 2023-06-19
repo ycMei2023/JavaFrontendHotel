@@ -121,7 +121,7 @@
       var params = new URLSearchParams(window.location.search);
 
         function reserveR(){
-          if(checkStartIsBeforeEnd()){
+          
             var reservationDto = {};
 
             // Room data
@@ -150,7 +150,7 @@
                 alert("start datum kan niet na einddatum zijn")
               }
           }
-        }
+        
       
         /* Currently all reservations need manual approval by admin (in reservations CRUD). Leaving these booking-status functions in case we need them later.
 
