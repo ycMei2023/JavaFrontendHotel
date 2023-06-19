@@ -117,40 +117,36 @@
       var roomId = urlParams.get("roomId");
 
       var reservationid;
-      // Type in URL ?id=... with an existing room number
-      var params = new URLSearchParams(window.location.search);
-
+     
         function reserveR(){
           
-            var reservationDto = {};
+          var reservationDto = {};
 
-            // Room data
-            reservationDto.amountPeople = numGuests;
-            reservationDto.beginDate = checkInDate;
-            reservationDto.endDate = checkOutDate;
-            reservationDto.breakfast = document.getElementById("breakfastCheck").checked;
-            reservationDto.business = document.getElementById("businessCheck").checked;
-            reservationDto.roomId = roomId;
+        // Room data
+        reservationDto.amountPeople = numGuests;
+        reservationDto.beginDate = checkInDate;
+        reservationDto.endDate = checkOutDate;
+        reservationDto.breakfast = document.getElementById("breakfastCheck").checked;
+        reservationDto.business = document.getElementById("businessCheck").checked;
+        reservationDto.roomId = roomId;
 
-            // Gues data
-            reservationDto.firstName = document.getElementById("firstName").value;
-            reservationDto.lastName = document.getElementById("lastName").value;        
+        // Guest data
+        reservationDto.firstName = document.getElementById("firstName").value;
+        reservationDto.lastName = document.getElementById("lastName").value;
+
+        var theJSON = JSON.stringify(reservationDto);
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function(){
+          if(this.readyState == 4 && this.status == 200){
+            reservationId = JSON.parse(xhr.responseText);
+            bookingComplete(reservationId);
+
           }
-          var theJSON = JSON.stringify(reservationDto);
-          var xhr = new XMLHttpRequest();
-          xhr.onreadystatechange = function(){
-              if(this.readyState == 4 && this.status == 200){
-                  reservationid = JSON.parse(xhr.responseText);
-                  xhr.open("POST", url+"/addlinkedreservation", true)
-                  xhr.setRequestHeader("Content-Type","application/json");
-                  xhr.send(theJSON);
-                  bookingComplete(reservationId);
-              }
-              else{
-                alert("start datum kan niet na einddatum zijn")
-              }
-          }
-        
+        }
+        xhr.open("POST", url+"/addLinkedReservation", true)
+        xhr.setRequestHeader("Content-Type","application/json");
+        xhr.send(theJSON);
+      }
       
         /* Currently all reservations need manual approval by admin (in reservations CRUD). Leaving these booking-status functions in case we need them later.
 
