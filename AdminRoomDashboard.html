@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<script>
+    if(sessionStorage.getItem('userType') == 1){
+    } else {
+        window.location.href='index.html';
+    }
+
+</script>
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -40,11 +47,11 @@
             </div>
             <div class="col-12 col-md-4">
                 <label for="roomPrice" class="form-label">Kamerprijs</label>
-                <input id="roomPrice" class="form-control" type="text" placeholder="00.00">
+                <input id="roomPrice" class="form-control" type="number" placeholder="00.00">
             </div>
             <div class="col-12 col-md-4">
                 <label for="roomNo" class="form-label">Kamernummer</label>
-                <input id="roomNo" class="form-control" type="text" placeholder="000">
+                <input id="roomNo" class="form-control" type="number" placeholder="000">
             </div>
 
         </div>
@@ -106,7 +113,7 @@
                         </div>
                         <div class="col-12 mb-2">
                             <label for="save-roomprice" class="form-label">Kamerprijs</label>
-                            <input id="save-roomprice" class="form-control" type="text" placeholder="00.00">
+                            <input id="save-roomprice" class="form-control" type="number" placeholder="00.00">
                         </div>
                         <div class="col-12">
                             <label for="save-roomnumber" class="form-label">Kamernummer</label>
