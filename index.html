@@ -9,6 +9,9 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
   <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+  <script type="text/javascript"
+    src="app.js">
+  </script>
   <title>Java Hotel YC</title>
   <style>
     .panel {
@@ -107,7 +110,7 @@
   }
 
   </style>
-  <script>
+  <script type="text/javascript">
 
   function showReviews(){
       var xhr = new XMLHttpRequest();
@@ -133,7 +136,7 @@
         }
       };
 
-      xhr.open("GET", "http://localhost:8080/ApprovedReviews", true)
+      xhr.open("GET", url+"/ApprovedReviews", true)
       xhr.send();
     }
 
@@ -147,38 +150,30 @@
 
   <div class="hero-wrapper">
     <div class="container text-center">
-      <h1>Find Your Perfect Stay</h1>
+      <h1>Zoek beschikbare kamers</h1>
       <div class="hero-form">
-        <form>
+        <form action="/showRooms.html" method="GET" id="submitForm">
           <div class="form-group">
-            <label for="checkInDate">Check-in Date</label>
-            <input type="date" class="form-control" id="checkInDate" required>
+            <label for="checkInDate">Aankomst</label>
+            <input type="date" class="form-control" id="checkInDate" name="checkInDate" required>
           </div>
           <div class="form-group">
-            <label for="checkOutDate">Check-out Date</label>
-            <input type="date" class="form-control" id="checkOutDate" required>
+            <label for="checkOutDate">Vertrek</label>
+            <input type="date" class="form-control" id="checkOutDate" name="checkOutDate" required>
           </div>
           <div class="form-row">
-            <div class="col-md-6">
-              <label for="adults">Adults</label>
-              <select class="form-control" id="adults">
+            <div class="col">
+              <label for="adults">Personen</label>
+              <select class="form-control" id="adults" name="adults">
                 <option>1</option>
                 <option>2</option>
                 <option>3</option>
                 <option>4</option>
-              </select>
-            </div>
-            <div class="col-md-6">
-              <label for="children">Children</label>
-              <select class="form-control" id="children">
-                <option>0</option>
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
+                <option>5</option>
               </select>
             </div>
           </div>
-          <button type="submit" class="btn btn-primary mt-3">Search</button>
+          <button type="submit" class="btn btn-primary mt-3">Zoek</button>
         </form>
       </div>
     </div>
@@ -261,6 +256,18 @@
   });
 
   showReviews();
+
+  // Validation that check-in is before check-out
+  // Validation will occur when submit is clicked
+
+  document.getElementById("submitForm").addEventListener("submit", function(event) {
+    var checkInDateInput = new Date(document.getElementById("checkInDate").value);
+    var checkOutDateInput = new Date(document.getElementById("checkOutDate").value);
+    if (checkInDateInput >= checkOutDateInput){
+      event.preventDefault(); //Prevents the submission event
+      alert("Aankomst kan niet na vertrek zijn. Controleer uw opgegeven datums.");
+    }
+  });
 </script>
 </body>
 

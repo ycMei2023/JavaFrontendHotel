@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <title>Java Hotel YC</title>
+
+<body>
+    <div id="nav-placeholder">
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h1>Reservering geplaatst!</h1>
+                <p>Uw reserveringsnummer staat hieronder. Neem gerust contact op als u nog vragen heeft via <a href="/contact.html">ons contactformulier</a>. Vermeld a.u.b. ook uw reserveringsnummer.</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col" id="reservationDetails">
+                [Reservation number]
+            </div>
+        </div>
+    </div>
+
+    <div id="footer-placeholder">
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+
+        // NAV-bar
+        $(function(){
+            $("#nav-placeholder").load("navbar.html");
+        });
+        $(function(){
+            $("#footer-placeholder").load("footer.html");
+        });
+
+        function buildSummary(reservationId){
+            /* Can be expanded to give a full summary by fetching all data from the database. Could include:
+            *   Name (First + Last)
+            *   Check-in date
+            *   Check-out date
+            *   Room type
+            *   Number of guests
+            *   Total price
+            */
+
+            document.getElementById("reservationDetails").innerHTML = `Reserveringsnummer: ${reservationId}`;
+
+            }
+
+        var urlParams = new URL(window.location).searchParams;
+        var reservationId = urlParams.get("reservationId");
+        buildSummary(reservationId);
+
+
+    </script>
+</body>
+
+</html>

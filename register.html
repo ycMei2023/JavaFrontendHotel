@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script type="text/javascript"
+      src="app.js">
+    </script>
     <title>Document</title>
 </head>
 <body>
@@ -33,7 +36,7 @@
       </div>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
-<script>$(function(){
+<script type="text/javascript">$(function(){
     $("#nav-placeholder").load("navbar.html");
   });
   $(function(){
@@ -45,6 +48,7 @@ function registerAccount(){
     account.email = document.getElementById("email").value;
     account.password = document.getElementById("password").value;
     account.birthDate = document.getElementById("birthDate").value;
+    
 
 
     var accountJSON = JSON.stringify(account);
@@ -55,7 +59,7 @@ function registerAccount(){
         }
     }
 
-    xhr.open("POST","http://localhost:8080/addAccount", true);
+    xhr.open("POST",url+"/addAccount", true);
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.send(accountJSON);
 
