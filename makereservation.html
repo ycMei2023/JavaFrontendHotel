@@ -2,61 +2,37 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-    <script type="text/javascript"
-      src="app.js">
-    </script>
-    <title>Java Hotel YC</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+  <title>Java Hotel YC</title>
 </head>
 <body>
     <div id="nav-placeholder">
     </div>
-    <br>
+
     <div class="container">
     <div class="row">
-    <div class="col">
-      <p>Samenvatting placeholder. Bevat: check-in datum, check-uit datum, aantal personen en kamertype.</p>
-  
-    <div class="input-group mb-3">
-        <span class="input-group-text" >Forename</span>
-        <input id="firstName" type="text" class="form-control" placeholder="First name" aria-label="guest's first name" aria-describedby="basic-addon1">
-        <span class="input-group-text" >Surname</span>
-        <input id="lastName" type="text" class="form-control" placeholder="Last Name" aria-label="guest's last name" aria-describedby="basic-addon2">
+    <div class="col-md-8 col-sm-12">
+
+    <div class="input-group">
+        <span class="input-group-text" >Voornaam</span>
+        <input id="firstName" type="text" class="form-control" placeholder="Jan" aria-label="guest's first name" aria-describedby="basic-addon1">
     </div>
-    <!-- DO NOT REMOVE YET - instead grey-out and show pre-filled data that was grabbed from the URL
-      <div class="input-group mb-3">
-        <label class="input-group-text" for="amountPeople">Amount of people</label>
-        <select class="form-select" id="amountPeople">
-          <option selected>Select</option>
-          <option value="1">One</option>
-          <option value="2">Two</option>
-          <option value="3">Three</option>
-          <option value="4">Four</option>
-          <option value="5">Five</option>
-          <option value="6">Six</option>
-          <option value="7">Seven</option>
-          <option value="8">Eight</option>
-        </select>
-      </div>
-      
-      <div class="input-group mb-3">
-        <span class="input-group-text" >Start date</span>
-        <input id="beginDate" type="date" class="form-control" aria-label="guest's begin date" aria-describedby="basic-addon2">
-        <span class="input-group-text" >End date</span>
-        <input id="endDate" type="date" class="form-control" aria-label="guest's end date" aria-describedby="basic-addon2">
-      </div>
-    -->
-      <div class="input-group mb-3">
-        <span class="input-group-text" id="basic-addon2">Phone Number</span>
+
+    <div class="input-group">
+        <span class="input-group-text" >Achternaam</span>
+        <input id="lastName" type="text" class="form-control" placeholder="Smit" aria-label="guest's last name" aria-describedby="basic-addon2">
+    </div>
+
+      <div class="input-group">
+        <span class="input-group-text" id="basic-addon2">Telefoonnummer</span>
         <input type="number" class="form-control" placeholder="31 06 4444444" aria-label="guest's phone number" aria-describedby="basic-addon3">
       </div>
 
       <div class="form-check">
-        <input class="form-check-input" type="checkbox" value="" id="breakfastCheck">
+        <input class="form-check-input" type="checkbox" value="" id="breakfastCheck" onclick="calcPrice()">
         <label class="form-check-label" for="breakfastCheck">
           Ontbijt toevoegen (€15 per persoon per nacht)
         </label>
@@ -69,10 +45,21 @@
         </label>
       </div>
       <br>
-      <button type="button" onclick="reserveR()" class="btn btn-primary"> Kamer reserveren </button>
 
     </div>
+
+    <div class="col-md-4 col-sm-12">
+      <table class="table table-borderless table-sm" id="dynamicPrice"></table>
     </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <button type="button" onclick="reserveR()" class="btn btn-primary"> Kamer reserveren </button>
+      </div>
+    </div>
+
     </div>
 
     <div id="footer-placeholder">
@@ -100,7 +87,8 @@
   </div> -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script type="text/javascript">
+    <script>
+
       // NAV-bar
       $(function(){
         $("#nav-placeholder").load("navbar.html");
@@ -109,7 +97,7 @@
         $("#footer-placeholder").load("footer.html");
       });      
 
-      // Collect previously passed parameters
+      // Collect previously passed parameters - used in other functions below
       var urlParams = new URL(window.location).searchParams;
       var checkInDate = urlParams.get("checkInDate");
       var checkOutDate = urlParams.get("checkOutDate");
@@ -117,10 +105,53 @@
       var roomId = urlParams.get("roomId");
 
       var reservationid;
-     
-        function reserveR(){
-          
-          var reservationDto = {};
+      var totalPrice = 0;
+
+      async function calcPrice(){
+        // Fetch room object based on ID for the current price
+        var response = await fetch(`http://localhost:8080/room/${roomId}`);
+        var room = await response.json();
+        
+        // Make strings into date objects to cacluate the days difference
+        var dateOut = new Date(checkOutDate);
+        var dateIn = new Date(checkInDate);
+        var nights = (dateOut - dateIn) / 1000 / 3600 / 24;
+
+        // Calculate relevant prices for the overview
+        var roomPrice = nights * room.price;
+        var touristTax = numGuests * nights * 3;
+        totalPrice = roomPrice + touristTax;
+        
+        // If breakfast is checked, add it to the total price
+        // Creates a flag too, for later use
+        var breakfastFlag = "nee";
+        var breakfastPrice = 0;
+
+        if (document.getElementById("breakfastCheck").checked){
+          breakfastPrice = numGuests * 15 * nights;
+          breakfastFlag = "ja";
+          totalPrice += breakfastPrice;
+        }
+
+        // Put current price in the div with id "dynamicPrice"
+        var dynamicPriceHTML = `
+            <tr><td> Kamertype: </td> <td>${room.type}</td></tr>
+            <tr><td> Gasten: </td> <td>${numGuests}</td></tr>
+            <tr><td> Nachten: </td> <td>${nights}</td></tr>
+            <tr><td> Van: </td> <td>${checkInDate}</td></tr> 
+            <tr><td> Tot: </td> <td>${checkOutDate}</td></tr>
+            <tr><td> Subtotaal: </td> <td>€ ${roomPrice}</td></tr>
+            <tr><td> Ontbijt: </td> <td>${breakfastFlag}</td></tr>
+            <tr><td> Ontbijt meerprijs: </td> <td>${breakfastPrice}</td></tr>
+            <tr><td> Touristenbelasting: </td> <td>€ ${touristTax}</td></tr>
+            <tr><td> Totaal: </td> <td>€ ${totalPrice}</td></tr>`
+        document.getElementById("dynamicPrice").innerHTML = dynamicPriceHTML;
+
+      }
+
+      function reserveR(){
+
+        var reservationDto = {};
 
         // Room data
         reservationDto.amountPeople = numGuests;
@@ -134,20 +165,32 @@
         reservationDto.firstName = document.getElementById("firstName").value;
         reservationDto.lastName = document.getElementById("lastName").value;
 
+        // Price
+        reservationDto.price = totalPrice;
+
         var theJSON = JSON.stringify(reservationDto);
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function(){
           if(this.readyState == 4 && this.status == 200){
             reservationId = JSON.parse(xhr.responseText);
             bookingComplete(reservationId);
-
           }
         }
-        xhr.open("POST", url+"/addLinkedReservation", true)
+        xhr.open("POST", "http://localhost:8080/addLinkedReservation", true)
         xhr.setRequestHeader("Content-Type","application/json");
         xhr.send(theJSON);
+
       }
-      
+
+      function bookingComplete(reservationId){
+        window.location.href = "/reservationCompleted.html?reservationId="+reservationId;
+      }
+
+      // Function call when first loading the page
+      calcPrice();
+
+
+
         /* Currently all reservations need manual approval by admin (in reservations CRUD). Leaving these booking-status functions in case we need them later.
 
         function bookR(reservationid){
@@ -159,7 +202,7 @@
                     console.log("approve succesful")
                 }
             }
-            xhr.open("PUT", url+"/approvereservation/"+paymentStatus, true)
+            xhr.open("PUT", "http://localhost:8080/approvereservation/"+paymentStatus, true)
             xhr.setRequestHeader("Content-Type","application/json");
             xhr.send(reservationid);
         }
@@ -173,14 +216,12 @@
                     console.log("approve succesful")
                 }
             }
-            xhr.open("PUT", url+"/approvereservation/"+paymentStatus, true)
+            xhr.open("PUT", "http://localhost:8080/approvereservation/"+paymentStatus, true)
             xhr.setRequestHeader("Content-Type","application/json");
             xhr.send(reservationid);
         }
         */
-      function bookingComplete(reservationId){
-        window.location.href = "/reservationCompleted.html?reservationId="+reservationId;
-      }
+
 
 
     </script>
