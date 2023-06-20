@@ -30,6 +30,7 @@
                         <th>People</th>
                         <th>Breakfast</th>
                         <th>Business</th>
+                        <th>Price</th>
                         <th>Payment status</th>
                         <th>Approval date</th>
                         </tr></thead>`;
@@ -44,6 +45,7 @@
                                 <td>${allReservations[x].amountPeople}</td>
                                 <td>${allReservations[x].breakfast}</td>
                                 <td>${allReservations[x].business}</td>
+                                <td>${allReservations[x].price}</td>
                                 <td>${allReservations[x].paymentStatus}</td>
                                 <td>${allReservations[x].approvalDate}</td>
                                 <td><button onclick = deleteR(${allReservations[x].id})> Delete </button></td>
@@ -61,6 +63,7 @@
                             <td>${allReservations[x].amountPeople}</td>
                             <td>${allReservations[x].breakfast}</td>
                             <td>${allReservations[x].business}</td>
+                            <td>${allReservations[x].price}</td>
                             <td>${allReservations[x].paymentStatus}</td>
                             <td>${allReservations[x].approvalDate}</td>
                             <td><button onclick = approveR(${allReservations[x].id})> Approve </button></td>
