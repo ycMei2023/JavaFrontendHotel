@@ -12,44 +12,62 @@
     <div id="nav-placeholder">
     </div>
 
-    <div class="container">
+    <div class="container py-3">
     <div class="row">
     <div class="col-md-8 col-sm-12">
-
+    
+    <div class="row">
     <div class="input-group">
         <span class="input-group-text" >Voornaam</span>
         <input id="firstName" type="text" class="form-control" placeholder="Jan" aria-label="guest's first name" aria-describedby="basic-addon1">
     </div>
+    </div>
 
+    <div class="row">
     <div class="input-group">
         <span class="input-group-text" >Achternaam</span>
         <input id="lastName" type="text" class="form-control" placeholder="Smit" aria-label="guest's last name" aria-describedby="basic-addon2">
     </div>
+    </div>
 
+    <div class="row">
       <div class="input-group">
         <span class="input-group-text" id="basic-addon2">Telefoonnummer</span>
         <input type="number" class="form-control" placeholder="31 06 4444444" aria-label="guest's phone number" aria-describedby="basic-addon3">
       </div>
+    </div>
 
+    <div class="row mt-3 ml-1">
       <div class="form-check">
         <input class="form-check-input" type="checkbox" value="" id="breakfastCheck" onclick="calcPrice()">
         <label class="form-check-label" for="breakfastCheck">
           Ontbijt toevoegen (€15 per persoon per nacht)
         </label>
       </div>
+    </div>
 
+    <div class="row ml-1">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="" id="breakfastCheck" onclick="calcPrice()">
+        <label class="form-check-label" for="breakfastCheck">
+          Late check-out (€10 per uur tot maximaal 15:00)
+        </label>
+      </div>
+    </div>
+
+    <div class="row mb-3 ml-1">
       <div class="form-check">
         <input class="form-check-input" type="checkbox" value="" id="businessCheck">
         <label class="form-check-label" for="businessCheck">
           Zakelijk verblijf
         </label>
       </div>
-      <br>
+    </div>
 
     </div>
 
-    <div class="col-md-4 col-sm-12">
-      <table class="table table-borderless table-sm" id="dynamicPrice"></table>
+    <div class="col-md-4 col-sm-12 py-2">
+      <table class="table table-sm" id="dynamicPrice"></table>
     </div>
 
     </div>
@@ -140,11 +158,13 @@
             <tr><td> Nachten: </td> <td>${nights}</td></tr>
             <tr><td> Van: </td> <td>${checkInDate}</td></tr> 
             <tr><td> Tot: </td> <td>${checkOutDate}</td></tr>
+            <tbody class="table-group-divider">
             <tr><td> Subtotaal: </td> <td>€ ${roomPrice}</td></tr>
             <tr><td> Ontbijt: </td> <td>${breakfastFlag}</td></tr>
             <tr><td> Ontbijt meerprijs: </td> <td>${breakfastPrice}</td></tr>
             <tr><td> Touristenbelasting: </td> <td>€ ${touristTax}</td></tr>
-            <tr><td> Totaal: </td> <td>€ ${totalPrice}</td></tr>`
+            </tbody>
+            <tr><td> <h3>Totaal<h3> </td> <td><h3>€ ${totalPrice}<h3></td></tr>`
         document.getElementById("dynamicPrice").innerHTML = dynamicPriceHTML;
 
       }
