@@ -65,7 +65,7 @@
                             <td>${allReservations[x].amountPeople}</td>
                             <td>${allReservations[x].breakfast}</td>
                             <td>${allReservations[x].business}</td>
-                            <td>${checkPrice() ? `<span style="color:green">${allReservations[x].price}</span>` : `<span style="color:red">${allReservations[x].price}</span>`}
+                            <td>${checkPrice(price, start, end) ? `<span style="color:green">${allReservations[x].price}</span>` : `<span style="color:red">${allReservations[x].price}</span>`}
                             </td>
                             <td>${allReservations[x].paymentStatus}</td>
                             <td>${allReservations[x].approvalDate}</td>
