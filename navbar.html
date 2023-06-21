@@ -95,13 +95,12 @@
     xhr.onreadystatechange = function(){
         if(this.readyState == 4 && this.status == 200){
           var returnUser = JSON.parse(xhr.responseText);
-          console.log(returnUser.customer);
           if(returnUser.email != null){
             sessionStorage.setItem("email", returnUser.email);
             sessionStorage.setItem('points', returnUser.points);
             sessionStorage.setItem('birthDate', returnUser.birthDate);
             sessionStorage.setItem('userType', returnUser.userType);
-            sessionStorage.setItem('customer', returnUser.customer);
+            sessionStorage.setItem('customer', returnUser.customer.id);
             alert("login succesfull")
             window.location.href='index.html';
           }
