@@ -6,6 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+  <script type="text/javascript"
+        src="app.js">
+  </script>
   <title>Java Hotel YC</title>
 </head>
 <body>
@@ -105,7 +108,7 @@
   </div> -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script>
+    <script type="text/javascript">
 
       // NAV-bar
       $(function(){
@@ -127,7 +130,7 @@
 
       async function calcPrice(){
         // Fetch room object based on ID for the current price
-        var response = await fetch(`http://localhost:8080/room/${roomId}`);
+        var response = await fetch(url+`/room/${roomId}`);
         var room = await response.json();
         
         // Make strings into date objects to cacluate the days difference
@@ -196,7 +199,7 @@
             bookingComplete(reservationId);
           }
         }
-        xhr.open("POST", "http://localhost:8080/addLinkedReservation", true)
+        xhr.open("POST", url+"/addLinkedReservation", true)
         xhr.setRequestHeader("Content-Type","application/json");
         xhr.send(theJSON);
 
