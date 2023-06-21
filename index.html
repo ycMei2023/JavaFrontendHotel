@@ -14,6 +14,10 @@
   </script>
   <title>Java Hotel YC</title>
   <style>
+    section{
+      padding-top: 50px;
+    }
+
     .panel {
       padding: 20px;
       margin-bottom: 20px;
@@ -30,7 +34,7 @@
     }
 
     .hero-form {
-      max-width: 500px;
+      /* max-width: 500px; */
       margin: 0 auto;
     }
 
@@ -43,7 +47,7 @@
     .section-line {
       border: none;
       border-top: 2px solid #ccc;
-      margin: 0 auto;
+      margin: 0 auto 30px;
       width: 50%;
     }
     
@@ -78,9 +82,9 @@
   object-fit: cover;
   object-position: center;
 }
-  .hotel-section {
+  /* .hotel-section {
     padding: 150px 0;
-  }
+  } */
   .review-section {
     padding: 150px 0;
   }
@@ -95,7 +99,10 @@
     margin-bottom: 30px;
   }
 
-  
+  .ratingStars {
+    margin-right: 5px;
+    color:gold;
+  }
 
   .symbols .symbol-item h3 {
     font-size: 24px;
@@ -119,14 +126,19 @@
           var allReviews = JSON.parse(this.responseText);
           const shuffleArray = arr => arr.sort(() => Math.random() - 0.5);
           const shuffledArr = shuffleArray(allReviews);
+          
           var reviewsHTML = '';
           for (var i = 0; i < 3; i++) {
             var review = shuffledArr[i];
+            var starScoreHTML="";
+            for(var j = 0; j < review.rating; j++){
+              starScoreHTML += '<i class="fa fa-star ratingStars"></i>';
+            }
             reviewsHTML += `
               <div class="col-md-4">
-                <div class="card">
+                <div class="card p-3">
                   <h4>${review.name}</h4>
-                  <h5> ${review.rating}</h5>
+                  <h5> ${starScoreHTML}</h5>
                   <p> ${review.reviewText}</p>
                 </div>
               </div>
@@ -153,21 +165,24 @@
       <h1>Zoek beschikbare kamers</h1>
       <div class="hero-form">
         <form action="/showRooms.html" method="GET" id="submitForm">
-          <div class="form-group">
-            <label for="checkInDate">Aankomst</label>
-            <input type="date" class="form-control" id="checkInDate" name="checkInDate" required>
-          </div>
-          <div class="form-group">
-            <label for="checkOutDate">Vertrek</label>
-            <input type="date" class="form-control" id="checkOutDate" name="checkOutDate" required>
-          </div>
-          <div class="form-row">
-            <div class="col">
+          <div class="row">
+            <div class="col-12 col-lg-3">
+              <label for="checkInDate">Aankomst</label>
+              <input type="date" class="form-control" id="checkInDate" name="checkInDate" required>
+            </div>
+            <div class="col-12 col-lg-3">
+              <label for="checkOutDate">Vertrek</label>
+              <input type="date" class="form-control" id="checkOutDate" name="checkOutDate" required>
+            </div>
+            <div class="col-12 col-lg-3">
               <label for="adults">Personen</label>
               <input type="number" class="form-control" id="adults" name="adults">
             </div>
+            <div class="col-12 col-lg-3">
+              <label>&nbsp;</label>
+              <button type="submit" class="btn btn-primary btn-block">Zoek</button>
+            </div>
           </div>
-          <button type="submit" class="btn btn-primary mt-3">Zoek</button>
         </form>
       </div>
     </div>
@@ -184,7 +199,7 @@
         </div>
       </div>
       
-      <div class="row" id="reviewsContainer">
+      <div class="row mb-5" id="reviewsContainer">
       </div>
     </div>
   </section>
@@ -218,16 +233,16 @@
   <section class="hotel-info hotel-section">
     <div class="container">
       <div class="row">
-        <div class="col-md-6">
+        <div class="col-12 col-md-6">
           <h2 class="section-header">Welkom bij Fawlty Towers</h2>
           <hr class="section-line">
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed fringilla diam vel eros condimentum, at fermentum elit facilisis. Duis venenatis dictum enim, at vestibulum mauris facilisis ut. Nulla facilisi. Integer ut massa sit amet risus sodales lacinia.</p>
           <p>Phasellus tristique, nunc eu efficitur lacinia, velit sem iaculis orci, a pulvinar erat purus id purus. Nam non placerat magna, ac dapibus mauris. Quisque tincidunt commodo mauris, vitae auctor ligula convallis a. Mauris a congue ligula.</p>
           <p>Nullam id massa non felis accumsan varius in sed sem. In sed erat id ex tincidunt blandit. Vestibulum fringilla dictum mauris, vitae euismod quam tristique a. Fusce rhoncus eros eget mi semper, sit amet pharetra sem consectetur.</p>
         </div>
-        <div class="col-md-6">
+        <div class="col-12 col-md-6 d-flex align-items-center">
           <div class="embed-responsive embed-responsive-16by9">
-            <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/your-video-id" allowfullscreen></iframe>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/N1qAF8VAgVA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
           </div>
         </div>
       </div>
