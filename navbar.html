@@ -18,7 +18,9 @@
       <li id="adminPage" class="nav-item">
         <a class="nav-link me-1" href="hubPage.html">Admin Panel</a>
       </li>
-      <li>
+      <li id="reservations" class="nav-item">
+        <a class="nav-link me-1" href="customersReservations.html">reserveringen</a>
+      </li>
       <li>
         <div id="loginButton"></div>
       </li>
@@ -73,6 +75,10 @@
     $('#adminPage').show()
   }if(sessionStorage.getItem('userType') != 1){
     $('#adminPage').hide()  }
+  if(sessionStorage.getItem('email')== null){
+    $('#reservations').hide();
+  }else{
+    $('#reservations').show()}
   
 
   function logout(){
@@ -89,12 +95,13 @@
     xhr.onreadystatechange = function(){
         if(this.readyState == 4 && this.status == 200){
           var returnUser = JSON.parse(xhr.responseText);
-          console.log(returnUser);
+          console.log(returnUser.customer);
           if(returnUser.email != null){
             sessionStorage.setItem("email", returnUser.email);
             sessionStorage.setItem('points', returnUser.points);
             sessionStorage.setItem('birthDate', returnUser.birthDate);
             sessionStorage.setItem('userType', returnUser.userType);
+            sessionStorage.setItem('customer', returnUser.customer);
             alert("login succesfull")
             window.location.href='index.html';
           }
