@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <script>
-        if(sessionStorage.getItem('userType') != 1){
+        if(sessionStorage.getItem('userType') == 1){
         } else {
             window.location.href='index.html';
         }
@@ -46,7 +46,7 @@
                                 <td>${allReservations[x].amountPeople}</td>
                                 <td>${allReservations[x].breakfast}</td>
                                 <td>${allReservations[x].business}</td>
-                                <td>${checkPrice() ? `<span style="color:green">${allReservations[x].price}</span>` : `<span style="color:red">${allReservations[x].price}</span>`}
+                                <td>${checkPrice(price, start, end) ? `<span style="color:green">${allReservations[x].price}</span>` : `<span style="color:red">${allReservations[x].price}</span>`}
                                 </td>
                                 <td>${allReservations[x].paymentStatus}</td>
                                 <td>${allReservations[x].approvalDate}</td>
@@ -65,7 +65,8 @@
                             <td>${allReservations[x].amountPeople}</td>
                             <td>${allReservations[x].breakfast}</td>
                             <td>${allReservations[x].business}</td>
-                            <td>${allReservations[x].price}</td>
+                            <td>${checkPrice() ? `<span style="color:green">${allReservations[x].price}</span>` : `<span style="color:red">${allReservations[x].price}</span>`}
+                            </td>
                             <td>${allReservations[x].paymentStatus}</td>
                             <td>${allReservations[x].approvalDate}</td>
                             <td><button onclick = approveR(${allReservations[x].id})> Approve </button></td>
@@ -82,16 +83,15 @@
             xhr.send();
         }
 
-        function checkPrice(){
+        function checkPrice(price, start, end){
             // Price data
-            var priceChecker = {};
-            priceChecker.price = document.getElementById("price").value;
-            priceChecker.beginDate = document.getElementById("beginDate").value;
-            priceChecker.endDate = document.getElementById("endDate").value;
-            
+            // var priceChecker = {};
+            // priceChecker.price = document.getElementById("price").value;
+            // priceChecker.beginDate = document.getElementById("beginDate").value;
+            // priceChecker.endDate = document.getElementById("endDate").value;
         
             // Call pricecheck back-end Python route for price check.
-            data = fetch('https://yc2305pythonbackend.azurewebsites.net/checkprice/' + priceChecker.beginDate + '/' + priceChecker.endDate + '/' + priceChecker.price)
+            data = fetch('https://yc2305pythonbackend.azurewebsites.net/checkprice/' + start + '/' + end + '/' + price)
             console.log(data)
             return data
             
