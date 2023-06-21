@@ -75,7 +75,7 @@
       </div>
       <div class="modal-body">
         <div class="mb-3">
-          <label for="login-username" class="form-label">email</label>
+          <label for="login-username" class="form-label">E-mail</label>
           <input type="text" class="form-control" id="login-username" placeholder="name@example.com">
         </div>
 
@@ -102,9 +102,9 @@
 </script>
 <script type="text/javascript">
   if(sessionStorage.getItem('email') != null){
-    document.getElementById('loginButton').innerHTML='<button type="button" class="btn btn-primary" onclick="logout()">logout</button>';
+    document.getElementById('loginButton').innerHTML='<button type="button" class="btn btn-primary" onclick="logout()">Uitloggen</button>';
   }else{
-    document.getElementById('loginButton').innerHTML='<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginModal">login</button>';
+    document.getElementById('loginButton').innerHTML='<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">Inloggen</button>';
   }
   if(sessionStorage.getItem('userType') == 1){
     $('#adminPage').show()
@@ -132,11 +132,11 @@
             sessionStorage.setItem('points', returnUser.points);
             sessionStorage.setItem('birthDate', returnUser.birthDate);
             sessionStorage.setItem('userType', returnUser.userType);
-            alert("login succesfull")
+            alert("U bent ingelogd")
             window.location.href='index.html';
           }
           else{
-            alert("login unsuccesfull")
+            alert("Inloggen mislukt")
           }
         }
     }
