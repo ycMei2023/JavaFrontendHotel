@@ -14,6 +14,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script type="text/javascript"
+        src="app.js">
+    </script>
 </head>
 
 <body>
@@ -110,7 +113,7 @@
     <!------------->
 
     <!-- FUNCTIONS -->
-    <script>
+    <script  type="text/javascript">
         $(function () {
             $("#nav-placeholder").load("navbar.html");
         });
@@ -130,7 +133,7 @@
         function prepareUpdateRoom(id) {
             this.selectedRoomId = id;
 
-            fetch('http://localhost:8080/room/' + id)
+            fetch(url+'8080/room/' + id)
                 .then(response => response.json())
                 .then(room => {
                     document.getElementById("save-roomtype").value = room.type;
@@ -156,7 +159,7 @@
                         $('#save-modal').modal('hide');
                     }
                 }
-                xhr.open("PUT", "http://localhost:8080/updateRoom/" + this.selectedRoomId, true);
+                xhr.open("PUT", url+"/updateRoom/" + this.selectedRoomId, true);
                 xhr.setRequestHeader("Content-Type", "application/json");
                 xhr.send(newRoomJSON);
             } else {
@@ -170,7 +173,7 @@
                         $('#save-modal').modal('hide');
                     }
                 }
-                xhr.open("POST", "http://localhost:8080/addRoom", true);
+                xhr.open("POST", url+"/addRoom", true);
                 xhr.setRequestHeader("Content-Type", "application/json");
                 xhr.send(newRoomJSON);                
             }
@@ -226,7 +229,7 @@
                     document.getElementById("allRoomsTable").innerHTML = finalString;
                 }
             }
-            xhr.open("GET", "http://localhost:8080/allRooms", true);
+            xhr.open("GET", url+"/allRooms", true);
             xhr.send();
         }
 
@@ -240,7 +243,7 @@
                     showRooms();
                 }
             }
-            xhr.open("DELETE", "http://localhost:8080/deleteRoom", true);
+            xhr.open("DELETE", url+"/deleteRoom", true);
             xhr.send(temp_id);
         }
 

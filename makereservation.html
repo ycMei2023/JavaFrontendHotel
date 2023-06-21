@@ -6,6 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
   <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+  <script type="text/javascript"
+        src="app.js">
+  </script>
   <title>Java Hotel YC</title>
 </head>
 <body>
@@ -88,8 +91,8 @@
       </div>
     </div>
   </div> -->
-    <script>
 
+    <script type="text/javascript">
       // NAV-bar
       $(function(){
         $("#nav-placeholder").load("navbar.html");
@@ -110,7 +113,7 @@
 
       async function calcPrice(){
         // Fetch room object based on ID for the current price
-        var response = await fetch(`http://localhost:8080/room/${roomId}`);
+        var response = await fetch(url+`/room/${roomId}`);
         var room = await response.json();
         
         // Make strings into date objects to cacluate the days difference
@@ -179,7 +182,7 @@
             bookingComplete(reservationId);
           }
         }
-        xhr.open("POST", "http://localhost:8080/addLinkedReservation", true)
+        xhr.open("POST", url+"/addLinkedReservation", true)
         xhr.setRequestHeader("Content-Type","application/json");
         xhr.send(theJSON);
 
