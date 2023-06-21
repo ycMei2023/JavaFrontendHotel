@@ -12,51 +12,60 @@
     <title>Document</title>
 </head>
 <body>
-  <div id="nav-placeholder">
 
-  </div>
-<div class="container">
-    <div class="text-center ">
-    <div class="input-group mb3">
-    <span class="input-group-text" id="addon1">naam</span>
-    <input class="form-control" id="reviewName">
-</div>
-<div class="input-group mb3">
-    <span class="input-group-text" id="addon1">review</span>
-    <input class="form-control "id="reviewText">
-</div>
-<div class="input-group mb3">
-    <span class="input-group-text" id="addon1">score</span>
-    <input class="form-control type="number" id="reviewScore">
-</div>
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">add review</button>
-</div>
-</div>
+  <!-- NAVBAR -->
+  <div id="nav-placeholder"></div>
+
+  <!-- Page content -->
+  <section>
+  <div class="container">
+      <div class="row">
+        <div class="col-12 col-lg-4">
+          <label for="reviewName" class="form-label">Naam</label>
+          <input class="form-control" id="reviewName">
+        </div>
+        <div class="col-12 col-lg-2">
+          <label for="reviewScore" class="form-label">Score (1-5)</label>
+          <input class="form-control" type="number" min="1" max="5" id="reviewScore">
+        </div>
+      </div>
+      <div class="row py-3">
+        <div class="col-12">
+          <label for="reviewText" class="form-label">Hoe was uw verblijf?</label>
+          <textarea class="form-control" rows="4" id="reviewText"></textarea>
+        </div>
+      </div>
+      
+      <div class="row pt-2">
+        <div class="col-12 col-lg-2 d-grid">
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Verstuur</button>
+        </div>
+      </div>
+    </div>
+  </section>
 
 <!-- Modal -->
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">reserverings nummer</h1>
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Bij welke reservering?</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <span class="input-group-text" id="addon1">bij behoorende reservering</span>
-    <input class="form-control type="number" id="ReservationNumber">
+          <p>Voer uw reserveringsnummer in om de beoordeling te plaatsen.</p>
+          <input class="form-control" type="number" id="ReservationNumber">
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">annuleren</button>
-          <button type="button" class="btn btn-primary" onclick="checkIfReviewIsValid()">submit review</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuleren</button>
+          <button type="button" class="btn btn-primary" onclick="checkIfReviewIsValid()">Bevestig</button>
         </div>
       </div>
     </div>
   </div> 
-  <div id="footer-placeholder">
 
-  </div>
-
-
+  <!-- FOOTER -->
+  <div id="footer-placeholder"></div>
 
 </body>
 </html> 
@@ -81,6 +90,9 @@ var rating , name , reviewText
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function(){
         if(this.readyState == 4){
+          console.log("Review opgestuurd");
+          alert("Bedankt voor uw beoordeling! Het kan even duren voor deze op de website te zien is.")
+          window.location="index.html";
         }
     }
 
@@ -99,7 +111,6 @@ function checkIfReviewIsValid(){
         if(this.readyState == 4){
         var allreservations = JSON.parse(this.responseText);
         for(var x = 0; x < allreservations.length; x++){
-          console.log(allreservations[x].id)
           inputNumber = document.getElementById("ReservationNumber").value
           if( allreservations[x].id == inputNumber){
             validId = true;
@@ -114,7 +125,7 @@ function checkIfReviewIsValid(){
     }
   }
   xhr.open("GET", url+"/reservations", true)
-            xhr.send();
+  xhr.send();
               
 }
 
