@@ -89,10 +89,9 @@
             priceChecker.beginDate = document.getElementById("beginDate").value;
             priceChecker.endDate = document.getElementById("endDate").value;
             
-            // Create JSON to pass data to Python back-end.
-            // UNNECESSARY? var JSONPrice = JSON.stringify(priceChecker);
-            // Call pricecheck back-end route for price check.
-            data = fetch('http://127.0.0.1:5000/checkprice/' + priceChecker.beginDate + '/' + priceChecker.endDate + '/' + priceChecker.price)
+        
+            // Call pricecheck back-end Python route for price check.
+            data = fetch('https://yc2305pythonbackend.azurewebsites.net/checkprice/' + priceChecker.beginDate + '/' + priceChecker.endDate + '/' + priceChecker.price)
             console.log(data)
             return data
             
