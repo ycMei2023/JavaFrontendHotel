@@ -137,6 +137,7 @@
       };
 
       xhr.open("GET", url+"/ApprovedReviews", true)
+      xhr.setRequestHeader("Content-Type","application/json");
       xhr.send();
     }
 
