@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <script>
-        if(sessionStorage.getItem('userType') == 1){
+        if(sessionStorage.getItem('userType') != 1){
         } else {
             window.location.href='index.html';
         }
@@ -36,6 +36,9 @@
                         </tr></thead>`;
                     // Ergens in deze loop moet de pricecheck function gecalled worden - Mees.
                     for(var x = 0; x < allReservations.length; x++){
+                        var price = allReservations[x].price;
+                        var start = allReservations[x].beginDate;
+                        var end = allReservations[x].endDate;
                         if(document.getElementById("filterByPayed").value == "true"){
                             if(allReservations[x].paymentStatus == true){
                                 endString += `<tr>
@@ -57,6 +60,7 @@
                         }
 
                         else{
+                            console.log(allReservations[x])
                             endString += `<tr>
                             <td>${allReservations[x].id}</td>
                             <td>${allReservations[x].roomNumber}</td>
@@ -91,11 +95,14 @@
             // priceChecker.endDate = document.getElementById("endDate").value;
         
             // Call pricecheck back-end Python route for price check.
-            data = fetch('https://yc2305pythonbackend.azurewebsites.net/checkprice/' + start + '/' + end + '/' + price)
-            console.log(data)
-            return data
+            fetch('https://yc2305pythonbackend.azurewebsites.net/checkprice/' + start + '/' + end + '/' + price , {method: "GET", mode: 'cors', headers: { 'Content-Type': 'application/json',}})
+            .then (response => response.text())
+            .then (data => {
+                const booleanValue = (data == 'true');
+                return booleanValue;
+            })
+            }
             
-        }
         
         function addR(){
             //Reservation data
