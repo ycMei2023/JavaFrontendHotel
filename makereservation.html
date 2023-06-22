@@ -182,6 +182,9 @@
         reservationDto.roomId = roomId;
 
         // Guest data
+        if(sessionStorage.getItem('email') != null){
+        reservationDto.customerId = sessionStorage.getItem('customer');
+        }
         reservationDto.firstName = document.getElementById("firstName").value;
         reservationDto.lastName = document.getElementById("lastName").value;
 
