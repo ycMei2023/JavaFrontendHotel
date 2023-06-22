@@ -39,6 +39,7 @@
                         var price = allReservations[x].price;
                         var start = allReservations[x].beginDate;
                         var end = allReservations[x].endDate;
+                        checkPrice(price, start, end, x);
                         if(document.getElementById("filterByPayed").value == "true"){
                             if(allReservations[x].paymentStatus == true){
                                 endString += `<tr>
@@ -49,8 +50,7 @@
                                 <td>${allReservations[x].amountPeople}</td>
                                 <td>${allReservations[x].breakfast}</td>
                                 <td>${allReservations[x].business}</td>
-                                <td>${checkPrice(price, start, end) ? `<span style="color:green">${allReservations[x].price}</span>` : `<span style="color:red">${allReservations[x].price}</span>`}
-                                </td>
+                                <td id = "ab${x}">${allReservations[x].price}</td>
                                 <td>${allReservations[x].paymentStatus}</td>
                                 <td>${allReservations[x].approvalDate}</td>
                                 <td><button onclick = deleteR(${allReservations[x].id})> Delete </button></td>
@@ -69,8 +69,7 @@
                             <td>${allReservations[x].amountPeople}</td>
                             <td>${allReservations[x].breakfast}</td>
                             <td>${allReservations[x].business}</td>
-                            <td>${checkPrice(price, start, end) ? `<span style="color:green">${allReservations[x].price}</span>` : `<span style="color:red">${allReservations[x].price}</span>`}
-                            </td>
+                            <td id = "ab${x}">${allReservations[x].price}</td>
                             <td>${allReservations[x].paymentStatus}</td>
                             <td>${allReservations[x].approvalDate}</td>
                             <td><button onclick = approveR(${allReservations[x].id})> Approve </button></td>
@@ -87,19 +86,18 @@
             xhr.send();
         }
 
-        function checkPrice(price, start, end){
-            // Price data
-            // var priceChecker = {};
-            // priceChecker.price = document.getElementById("price").value;
-            // priceChecker.beginDate = document.getElementById("beginDate").value;
-            // priceChecker.endDate = document.getElementById("endDate").value;
-        
+        function checkPrice(price, start, end, x){
             // Call pricecheck back-end Python route for price check.
             fetch('https://yc2305pythonbackend.azurewebsites.net/checkprice/' + start + '/' + end + '/' + price , {method: "GET", mode: 'cors', headers: { 'Content-Type': 'application/json',}})
             .then (response => response.text())
             .then (data => {
-                const booleanValue = (data == 'true');
-                return booleanValue;
+                if (data == "true"){
+                    document.getElementById("ab"+x).style.color = "green";
+                } 
+                else{
+                    document.getElementById("ab"+x).style.color = "red";
+                }
+                
             })
             }
             
