@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+    <script>
+        if(sessionStorage.getItem('email') == null){
+            window.location.href='index.html';
+        }
+
+        function showReservations(){
+    var user = {}
+    user.email = sessionStorage.getItem('email');
+    var userJSON = JSON.stringify(user);
+
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function(){
+        if(this.readyState == 4){
+            //console.log(xhr.responseText);
+            var reservations = JSON.parse(this.responseText);
+            var finalstring = `<table class='table'>
+                <thead>
+                    <tr>
+                        <th> kamernummer </th>
+                        <th> checkin datum </th>
+                        <th> checkout datum </th>
+                        <th> prijs </th>
+                        </tr>
+                        </thead>`;
+            for(var x = 0; x < reservations.length; x++){
+                finalstring += `<tr>
+                    <td>${reservations[x].roomNumber}</td>
+                    <td>${reservations[x].beginDate}</td>
+                    <td>${reservations[x].endDate}</td>
+                    <td>${reservations[x].price}</td>
+                    </tr>`
+            }
+
+
+            finalstring += "</table>";
+            document.getElementById('userReservations').innerHTML = finalstring
+        }
+    }
+    xhr.open("POST",url+"/accountReservations", true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.send(userJSON);
+}
+    </script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script type="text/javascript"
+      src="app.js">
+    </script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="nav-placeholder"></div>
+    <div id="userReservations"></div>
+    <script>showReservations()</script>
+
+    <div id="footer-placeholder"></div>
+</body>
+</html>
+<script type="text/javascript">$(function(){
+    $("#nav-placeholder").load("navbar.html");
+  });
+  $(function(){
+  $("#footer-placeholder").load("footer.html");
+});
+
+</script>
