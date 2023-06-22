@@ -1,0 +1,129 @@
+section {
+    padding-top: 50px;
+}
+
+.panel {
+    padding: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.hero-wrapper {
+    background-size: cover;
+    background-position: center;
+    color: white;
+    padding: 100px 0;
+    background-color: #f2f2f2;
+    background-image: url(img/pexels-pixabay-210529.jpg)
+}
+
+.hero-form {
+    /* max-width: 500px; */
+    margin: 0 auto;
+}
+
+.section-header {
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+.section-line {
+    border: none;
+    border-top: 2px solid #ccc;
+    margin: 0 auto 30px;
+    width: 50%;
+}
+
+.review-card {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.review-card .review-rating {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.review-card .review-text {
+    margin-bottom: 20px;
+}
+
+.review-card .review-author {
+    font-style: italic;
+}
+
+.hotel-picture {
+    width: 100%;
+    height: auto;
+}
+
+.hotel-picture {
+    height: 400px;
+    object-fit: cover;
+    object-position: center;
+}
+
+.review-section {
+    padding: 150px 0;
+}
+
+.symbols {
+    background-color: #ffffff;
+    padding: 50px 0;
+}
+
+.symbols .symbol-item {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.ratingStars {
+    margin-right: 5px;
+    color: gold;
+}
+
+.symbols .symbol-item h3 {
+    font-size: 24px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.symbols .symbol-item p {
+    font-size: 16px;
+    color: #777;
+    margin-bottom: 0;
+}
+
+#footer-placeholder {
+    margin-top: auto;
+}
+
+body, html {
+    height: 100vh;
+    width: 100vw;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    background-color:rgb(208, 221, 241);
+}
+
+/* .btn-primary {
+    background-color: orange;
+    border-color: black;
+    color: black;
+} */
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+.form-check {
+    margin-bottom: 5px;
+    margin-left: 20px;
+}

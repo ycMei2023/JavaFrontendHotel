@@ -11,32 +11,66 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
     <script type="text/javascript"
         src="app.js">
     </script>
     <title>Document</title>
 </head>
 <body>
-    <button onclick="showAllreviews()">show all reviews</button>
-    <div id="allReviews"></div>
+    
+    <!-- NAVBAR -->
+    <div id="nav-placeholder"></div>
+    
+    <!-- Page content -->
+    <div class="container">
+        <section>
+            <h1>Achtergelaten Beoordelingen</h1>
+            <br>
+            <label for="reviewName">Naam</label>
+            <input id="reviewName">
+            <br>
+            <label for="reviewText">Bericht</label>
+            <input id="reviewText">
+            <br>
+            <label for="number">Score (1-5)</label>
+            <input type="number" id="reviewScore">
+            <br>
+            <button onclick="addreview()">Beoordeling toevoegen</button>
+            <button onclick="showAllreviews()">Alle beoordelingen</button>
+        </section>
+    </div>
+    <div class="container">
+        <section>
+            <div id="allReviews"></div>
+        </section>
+    </div>
+
+    <!-- FOOTER -->
+    <div id="footer-placeholder"></div>
+
 </body>
 
-<input id="reviewName">
-<input id="reviewText">
-<input type="number" id="reviewScore">
-<button onclick="addreview()">add review</button>
+
 </html>
 
 
 
 <script type="text/javascript">
 
+    $(function () {
+        $("#nav-placeholder").load("navbar.html");
+    });
+    $(function () {
+        $("#footer-placeholder").load("footer.html");
+    });
+
 function showAllreviews(){
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function(){
         if(this.readyState == 4){
             var allreviews = JSON.parse(this.responseText);
-            var finalstring = "<table border=1>"
+            var finalstring = '<table class="table table-striped table-sm" border=1>'
             for(var x = 0; x < allreviews.length; x++){
                 finalstring += `<tr>
                     <td>${allreviews[x].name}</td>
@@ -66,6 +100,8 @@ function showAllreviews(){
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function(){
         if(this.readyState == 4){
+            console.log("Review added");
+            showAllreviews();
         }
     }
 
@@ -78,11 +114,14 @@ function showAllreviews(){
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function(){
         if(this.readyState == 4){
+            console.log("Review deleted");
+            showAllreviews();
         }
     }
     xhr.open("DELETE",url+"/DeleteReview/"+id, true);
     xhr.send();
  }
+
  function updateReview(id){
     var theReview = {}
     theReview.id = id;
@@ -93,7 +132,8 @@ function showAllreviews(){
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function(){
         if(this.readyState == 4){
-            
+            console.log("Review updated");
+            showAllreviews();
         }
     }
     
@@ -101,6 +141,7 @@ function showAllreviews(){
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.send(theJSON);
  }
+
 function toggleApproval(id){
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function(){
@@ -113,5 +154,7 @@ function toggleApproval(id){
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.send(id);
 }
+
+showAllreviews();
 
 </script>
